@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Title</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="admin.css">
+        <script src="admin.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <!-- place navbar here -->
+            <nav
+                class="navbar navbar-expand-sm navbar-dark bg-primary"
+            >
+                <a class="navbar-brand" href="#"><img
+                    src="https://oci02.img.iteso.mx/Identidades-De-Instancia/ITESO/Logos%20ITESO/Logo-ITESO-Principal-SinFondo.png"
+                    class="img-fluid rounded-top iteso-logo"
+                    alt="Iteso logo"
+                />
+                </a>
+                <button
+                    class="navbar-toggler d-lg-none"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapsibleNavId"
+                    aria-controls="collapsibleNavId"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                ><i class="bi bi-three-dots-vertical"></i></button>
+
+
+                <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavId">
+                    <table>
+                        <tr>
+                            <td>
+                                <a class="text-white text-decoration-none my-2" href="user_page.html" ><i class="bi bi-person-fill"> User</i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a class="text-white text-decoration-none my-2" href="index.html" ><i class="bi bi-arrow-bar-right"></i> Log Out</i></a>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
+            </nav>
+            
+        </header>
+        <main>
+            <h3>Options</h3>
+            <hr>
+            <a class="noHilight" href="" data-bs-toggle="modal"
+            data-bs-target="#addUser">
+            <div class="card">
+                <i class="bi bi-person-plus-fill"></i>
+                <div class="container">
+                  <h4><b>Add User</b></h4>
+                  <p>a new Admin, Student or Profesor</p>
+                </div>
+              </div>
+            </a>
+            <hr>
+
+
+            <a class="noHilight"
+            onclick="showList()">
+            <div class="card">
+                <i class="bi bi-card-list"></i>
+                <div class="container">
+                  <h4><b>List Users</b></h4>
+                  <p>See Users, Profesors and Admins</p>
+                </div>
+              </div>
+            </a>
+            
+            <hr>
+
+
+            <a class="noHilight" href="" data-bs-toggle="modal"
+            data-bs-target="#Classroom">
+            <div class="card">
+                <i class="bi bi-card-list"></i>
+                <div class="container">
+                  <h4><b>List Classroom</b></h4>
+                  <p>See Users, Profesors and Admins</p>
+                </div>
+              </div>
+            </a>
+            
+            <hr>
+
+
+            <a class="noHilight" href="" data-bs-toggle="modal"
+            data-bs-target="#Subjects">
+            <div class="card">
+                <i class="bi bi-card-list"></i>
+                <div class="container">
+                  <h4><b>List Subjects</b></h4>
+                  <p>See Users, Profesors and Admins</p>
+                </div>
+              </div>
+            </a>
+            
+
+            <hr>
+            <a class="noHilight" href="" data-bs-toggle="modal"
+            data-bs-target="#Aprove">
+            <div class="card">
+                <i class="bi bi-calendar-check"></i>
+                <div class="container">
+                  <h4><b>Aprove Classes</b></h4>
+                  <p>See Users, Profesors and Admins</p>
+                </div>
+              </div>
+            </a>
+            
+
+
+              
+              
+              
+              <script>
+                var modalId = document.getElementById('modalId');
+              
+                modalId.addEventListener('show.bs.modal', function (event) {
+                      // Button that triggered the modal
+                      let button = event.relatedTarget;
+                      // Extract info from data-bs-* attributes
+                      let recipient = button.getAttribute('data-bs-whatever');
+              
+                    // Use above variables to manipulate the DOM
+                });
+              </script>
+              
+              
+            
+              
+              <script>
+                var modalId = document.getElementById('modalId');
+              
+                modalId.addEventListener('show.bs.modal', function (event) {
+                      // Button that triggered the modal
+                      let button = event.relatedTarget;
+                      // Extract info from data-bs-* attributes
+                      let recipient = button.getAttribute('data-bs-whatever');
+              
+                    // Use above variables to manipulate the DOM
+                });
+              </script>
+
+              <!-- Modal -->
+              <div
+                class="modal fade modal-lg"
+                id="Aprove"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="modalTitleId"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog  modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">
+                                Modal title
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Profesor</th>
+                                        <th scope="col">Classroom</th>
+                                        <th scope="col">Subject</th>
+                                        <th scope="col">Hrs</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row"><div class="d-grid gap-2">
+                                            <button
+                                                type="button"
+                                                name=""
+                                                id=""
+                                                class="btn btn-success"
+                                            >
+                                                Aprove
+                                            </button>
+                                            <button
+                                                type="button"
+                                                name=""
+                                                id=""
+                                                class="btn btn-danger"
+                                            >
+                                                Nop
+                                            </button>
+                                        </div>
+                                        </th>
+                                        <td>Mario Ulises</td>
+                                        <td>C-111</td>
+                                        <td>Programacion Orientada a Objetos</td>
+                                        <td>9-11</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button type="button" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+
+<!-- Modal -->
+              <div
+                class="modal fade modal-lg"
+                id="Subjects"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="modalTitleId"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">
+                                Subjects
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="input-group mb-3">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder=""
+                                        aria-label="Button"
+                                        aria-describedby=""
+                                    />
+                                    <button class="btn btn-outline-secondary" type="button" id="">
+                                        Search
+                                    </button>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Subject</th>
+                                        <th scope="col">Area</th>
+                                        <th scope="col">info</th>
+                                        <th scope="col">Eliminate</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">
+                                            1
+                                        </th>
+                                        <td>Programacion Orientada a Objetos</td>
+                                        <td>ISC</td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary btn-lg"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#info"
+                                            >
+                                            <i class="bi bi-info-circle-fill"></i>
+                                            </button>
+                                        </td>
+                                        <td><div class="d-grid gap-2">
+                                            <button
+                                                type="button"
+                                                name=""
+                                                id=""
+                                                class="btn btn-danger"
+                                            >
+                                                Eliminate
+                                            </button>
+                                        </div>
+                                    </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#addSubject">New</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="addClass"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="modalTitleId"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">
+                                New Classroom
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <form action="">
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="prefixId">Class</span>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            class="form-control"
+                                            placeholder=""
+                                            aria-describedby="prefixId"
+                                        />
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="prefixId">Students</span>
+                                        <input
+                                            type="number"
+                                            name="name"
+                                            id="name"
+                                            class="form-control"
+                                            placeholder=""
+                                            aria-describedby="prefixId"
+                                        />
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                >
+                                    Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
+
+              <!-- Modal -->
+              <div
+                class="modal fade modal-lg"
+                id="Classroom"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="modalTitleId"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">
+                                Classrooms
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <!-- Button in the end -->
+                                <div class="input-group mb-3">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        aria-label="Text input with dropdown button"
+                                        
+                                    />
+                                    <button
+                                        class="btn btn-outline-secondary dropdown-toggle"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        Search
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="#">Classroom</a></li>
+                                        <li><a class="dropdown-item" href="#">Capacity ></a></li>
+                                        <li><a class="dropdown-item" href="#">Capacity <</a></li>
+                                    </ul>
+                                </div>
+
+                                <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Classroom</th>
+                                        <th scope="col">Capasity</th>
+                                        <th scope="col">Eliminate</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">
+                                            1
+                                        </th>
+                                        <td>C-111</td>
+                                        <td>132</td>
+                                        <td><div class="d-grid gap-2">
+                                            <button
+                                                type="button"
+                                                name=""
+                                                id=""
+                                                class="btn btn-danger"
+                                            >
+                                                Eliminate
+                                            </button>
+                                        </div>
+                                    </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#addClass">New</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="addSubject"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="modalTitleId"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">
+                                New Subject
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <form action="">
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="prefixId">Subject</span>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            class="form-control"
+                                            placeholder=""
+                                            aria-describedby="prefixId"
+                                        />
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="prefixId">Abreviation</span>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            class="form-control"
+                                            placeholder=""
+                                            aria-describedby="prefixId"
+                                        />
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Subject</label>
+                                        <select
+                                            class="form-select form-select-lg"
+                                            name=""
+                                            id=""
+                                        >
+                                            <option selected>Select one</option>
+                                            <option value="">Ingenier</option>
+                                            <option value="">Licenciature</option>
+                                            <option value="">Arts</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="flush-headingOne">
+                                                <button
+                                                    class="accordion-button collapsed"
+                                                    type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#flush-collapseOne"
+                                                    aria-expanded="true"
+                                                    aria-controls="flush-collapseOne"
+                                                >
+                                                    Dependancies
+                                                </button>
+                                            </h2>
+                                            <div
+                                                id="flush-collapseOne"
+                                                class="accordion-collapse collapse"
+                                                aria-labelledby="flush-headingOne"
+                                                data-bs-parent="#accordionFlushExample"
+                                            >
+                                                <div class="accordion-body">
+                                                    <div class="input-group mb-3">
+                                                        <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder=""
+                                                            aria-label="Button"
+                                                            aria-describedby=""
+                                                        />
+                                                        <button class="btn btn-outline-secondary" type="button" id="">
+                                                            Search
+                                                        </button>
+                                                    </div>
+                                                    <div class="list-group">
+                                                        <label class="list-group-item">
+                                                            <input class="form-check-input me-1" type="checkbox" value="" />
+                                                            Programacion Oreintada a objetos
+                                                        </label>
+                                                        <label class="list-group-item">
+                                                            <input class="form-check-input me-1" type="checkbox" value="" />
+                                                            Administracion de Sistemas
+                                                        </label>
+                                                        <label class="list-group-item">
+                                                            <input class="form-check-input me-1" type="checkbox" value="" />
+                                                            Servicios Seguros
+                                                        </label>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                >
+                                    Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
+              
+              <script>
+                var modalId = document.getElementById('modalId');
+              
+                modalId.addEventListener('show.bs.modal', function (event) {
+                      // Button that triggered the modal
+                      let button = event.relatedTarget;
+                      // Extract info from data-bs-* attributes
+                      let recipient = button.getAttribute('data-bs-whatever');
+              
+                    // Use above variables to manipulate the DOM
+                });
+              </script>
+              
+              <script>
+                var modalId = document.getElementById('modalId');
+              
+                modalId.addEventListener('show.bs.modal', function (event) {
+                      // Button that triggered the modal
+                      let button = event.relatedTarget;
+                      // Extract info from data-bs-* attributes
+                      let recipient = button.getAttribute('data-bs-whatever');
+              
+                    // Use above variables to manipulate the DOM
+                });
+              </script>
+              
+              
+              <script>
+                var modalId = document.getElementById('modalId');
+              
+                modalId.addEventListener('show.bs.modal', function (event) {
+                      // Button that triggered the modal
+                      let button = event.relatedTarget;
+                      // Extract info from data-bs-* attributes
+                      let recipient = button.getAttribute('data-bs-whatever');
+              
+                    // Use above variables to manipulate the DOM
+                });
+              </script>
+
+
+
+
+        </main>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>
+
+
+
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div
+    class="modal fade"
+    id="info"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalTitleId"
+    aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleId">
+                    Dependencies
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <ol>
+                        <li>
+                            Desarollo de aplicaciones web
+                        </li>
+                        <li>
+                            Base de datos Relacionales
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var modalId = document.getElementById('modalId');
+
+    modalId.addEventListener('show.bs.modal', function (event) {
+          // Button that triggered the modal
+          let button = event.relatedTarget;
+          // Extract info from data-bs-* attributes
+          let recipient = button.getAttribute('data-bs-whatever');
+
+        // Use above variables to manipulate the DOM
+    });
+</script>
+
+
+
+
+<!-- Modal -->
+<div
+class="modal fade"
+id="addUser"
+tabindex="-1"
+role="dialog"
+aria-labelledby="modalTitleId"
+aria-hidden="true"
+>
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalTitleId">
+                New User
+            </h5>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+            ></button>
+        </div>
+        <form onsubmit="create()">
+            <div class="modal-body">
+                <div class="container-fluid row">
+                    <div class="mb-3 col-6">
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="FirtsN"
+                            id="FirtsN"
+                            aria-describedby="helpId"
+                            placeholder="First Name" required
+                        />
+                    </div>
+                    <div class="mb-3 col-6">
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="LastN"
+                            id="LastN"
+                            aria-describedby="helpId"
+                            placeholder="Last Name" required
+                        />
+                    </div>
+                    <div class="input-group mb-3">
+                        <input
+                            type="text"
+                            name="email"
+                            id="email"
+                            class="form-control"
+                            placeholder="email"
+                            aria-describedby="suffixId" required
+                        />
+                        <span class="input-group-text" id="suffixId">@iteso.mx</span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <input
+                            type="password"
+                            class="form-control"
+                            name=""
+                            id="Password1"
+                            aria-describedby="helpId"
+                            placeholder="Password" required
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <input
+                            type="password"
+                            class="form-control"
+                            name=""
+                            id="Password2"
+                            aria-describedby="helpId"
+                            placeholder="Confirm Password" required
+                        />
+                    </div>
+                </div>
+                <div
+                    class="btn-group d-flex justify-content-center"
+                    role="group"
+                    aria-label="Basic checkbox toggle button group"
+                >
+                    <input
+                        type="radio"
+                        class="btn-check"
+                        name="btnradio"
+                        id="btncheck1"
+                        autocomplete="off" checked
+                    />
+                    <label
+                        class="btn btn-outline-primary"
+                        for="btncheck1"
+                        >Student</label
+                    >
+                
+                    <input
+                        type="radio"
+                        class="btn-check"
+                        name="btnradio"
+                        id="btncheck2"
+                        autocomplete="off"
+                    />
+                    <label
+                        class="btn btn-outline-primary"
+                        for="btncheck2"
+                        >Profesor</label
+                    >
+                
+                    <input
+                        type="radio"
+                        class="btn-check"
+                        name="btnradio"
+                        id="btncheck3"
+                        autocomplete="off"
+                    />
+                    <label
+                        class="btn btn-outline-primary"
+                        for="btncheck3"
+                        >Admin</label
+                    >
+                </div>
+                
+                
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+                <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        </form>
+        
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="admin.js"></script>
+  <!-- Modal -->
+<div
+    class="modal fade bd-example-modal-lg"
+    id="ListUsers"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalTitleId"
+    aria-hidden="true"
+    >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleId">
+                    List
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="container-fluid">
+                    
+                    <div class="input-group mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder=""
+                            aria-label="Button"
+                            aria-describedby=""
+                            id="NameList"
+                            onchange="listDosentExist()"
+                        />
+                    </div>
+                    <h4>Students</h4>
+                    <table style=" border: 1px solid black;
+                    border-collapse: collapse;" id="Student">
+
+                    </table>
+                </div>
+
+                <h4>Profesor</h4>
+                <div class="container-fluid">
+                    <table style=" border: 1px solid black;
+                    border-collapse: collapse;" id="Profesor">
+                    </table>
+                </div>
+                    <h4>Admin</h4>
+                <div class="container-fluid">
+                    <table style=" border: 1px solid black;
+                    border-collapse: collapse;" id="Admin">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

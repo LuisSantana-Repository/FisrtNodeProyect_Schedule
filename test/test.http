@@ -1,0 +1,84 @@
+@host = http://localhost:3001
+
+
+###
+
+GET {{host}}/api/User
+x-auth: 23426
+
+###
+
+GET {{host}}/api/User?name=m
+x-auth: 23426
+
+###
+    GET {{host}}/api/User
+
+###
+POST {{host}}/api/User
+Content-Type: application/json
+x-auth: 23423
+
+{
+    "name":"Marta",
+    "email": "marhta1234567@test.com",
+    "password" : "1234",
+    "userType": 2
+}
+###
+
+POST {{host}}/api/login
+Content-Type: application/json
+
+{
+    "email": "marta@test.com",
+    "password" : "1234"
+}
+
+
+###
+
+GET {{host}}/api/User
+
+###
+
+POST {{host}}/api/User
+Content-Type: application/json
+
+{
+    "name":"asdf"
+}
+
+###
+
+PUT {{host}}/api/User/marta@test.com
+x-auth: 23423
+Content-Type: application/json
+
+{
+    "name":"Gemini2",
+    "email":"userasdfdsf2@test.com",
+    "password": "125345",
+    "ClassID": "6626eb356dc239be15258e18"
+}
+###
+
+POST {{host}}/api/login
+Content-Type: application/json
+
+{
+    "email": "marta@test.com",
+    "password" : "125345"
+}
+###
+DELETE {{host}}/api/users/Gemini@google.com
+x-auth: 23423
+
+
+###
+###
+###
+
+DELETE  {{host}}/api/images/test@test.com/soraImg3
+
+

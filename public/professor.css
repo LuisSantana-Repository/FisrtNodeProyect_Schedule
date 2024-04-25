@@ -1,0 +1,13 @@
+.hidden{
+    display: none;
+}
+
+.notHidden{
+    display: contents;
+}
+
+.blueHover:hover {
+    background-color: #8fcde2;
+    border-radius: 5px;
+    width: fit-content;
+}
