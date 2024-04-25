@@ -22,7 +22,7 @@ router.post('/', async(req,res)=>{
     let redirect;
     switch (user.userType) {
         case 0:
-            redirect = "/student.html"
+            redirect = "/Student.html"
             break;
         case 1:
                 redirect = "/professor.html"
