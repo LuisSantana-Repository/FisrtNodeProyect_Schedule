@@ -21,7 +21,6 @@ async function redirect(){
             
         });
     }else{
-        localStorage.setItem("Token", (data.token))
         window.location.href = (data.redirect)
     }
 }

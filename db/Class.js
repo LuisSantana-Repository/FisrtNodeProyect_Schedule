@@ -6,10 +6,13 @@ const ClassSchema = new mongoose.Schema(
             type: String,
             required:true
         },
-        subject:{
-            type: String,
-            required:true
-        },
+        Curiculum:[
+            {
+                type: String,
+                ref:"curiculems",
+                default: ["ISC","IDC"]
+            }
+        ],
         credits:{
             type: Number,
             required:true
@@ -30,12 +33,17 @@ ClassSchema.statics.saveClass = async (userData)=>{
 }
 
 ClassSchema.statics.findClass  = async(_id)=>{
-    let student = await Class.findOne({_id})
+    let student = await Class.findOne({_id}).populate('requirements')
     return student;
 }
-ClassSchema.statics.findClassesWhithRequirements= async(cursadas = []) =>{
+
+ClassSchema.statics.findClassesWhithRequirements= async(cursadas = [], curriculum) =>{
     //console.log("Cursadas:",cursadas)
     let query = {};
+    if (curriculum) {
+        query.Curiculum = { $in: [curriculum] };
+    }
+
     if(cursadas.length==0){
        //console.log("asdasDA")
         query.requirements = { $size: 0 };
@@ -50,17 +58,18 @@ ClassSchema.statics.findClassesWhithRequirements= async(cursadas = []) =>{
         
     }
 
+
     let doc = await Class.find(query);
     //console.log(doc)
     return doc;
 }
-ClassSchema.statics.filterClassesToHaveAllRequirements= async (cursadas)=>{
+ClassSchema.statics.filterClassesToHaveAllRequirements= async (cursadas,Curiculum)=>{
     //console.log(cursadas);
     if(!cursadas){
         let doc = Class.findClassesWhithRequirements();
         return await Class.findClassesWhithRequirements();
     }else{
-        let doc = await Class.findClassesWhithRequirements(cursadas);
+        let doc = await Class.findClassesWhithRequirements(cursadas,Curiculum);
         let set = new Set(cursadas)
         //console.log(doc)
         doc.filter(clase =>{
@@ -78,17 +87,47 @@ ClassSchema.statics.filterClassesToHaveAllRequirements= async (cursadas)=>{
     }
 }
 
+ClassSchema.statics.findCLasesNotIn = async(user)=>{
+    let doing =[]
+    console.log(user)
+    doing = doing.concat(user.Completed, user.Passing,user.Available);
+    let query = {
+        _id: { $nin: doing }  // Exclude classes based on the combined list
+    };
+
+    let doc = await Class.find(query);
+    return doc;
+}
+
+ClassSchema.statics.findClasses = async (filter={}, 
+    isAdmin = false,)=>{
+   let proj = isAdmin? {}: {name:1, email:1, _id:0} ;
+   let docs =  Class.find(filter,proj).sort({name:1})
+                    //.populate('images', 'name url -_id')
+   let count = Class.find(filter).count()
+
+   // we removed the await in previous lines to execute both queries and wait for both 
+   // it is not the same than wait the first to finish to execute the second. 
+   let resp = await Promise.all([docs, count])
+   let users = resp[0];
+   let total =  resp[1];    
+   console.log(resp[0], resp[1]);
+   return {users, total}
+}
+
 let Class = mongoose.model('Class', ClassSchema)
 
 
 // Class.saveClass(
 //     {
-//         name: "Programacion Orientada a objetos",
-//         subject: "ISC",
+//         name: "INTEGRACIÓN DE SERVICIOS DE APRENDIZAJE AUTOMÁTICO",
+//         Curiculum: ["ISC"],
 //         credits: 8,
-//         requirements : ['6626eaec231f0c9486f06dd4']
+//         requirements:['662c0fede29d7d8889429257'
+//            ]
 //     }
 // );
+
 // async function findUsers(){
 //     let docs = await Class.filterClassesToHaveAllRequirements(['6626eaec231f0c9486f06dd4'])
 //     console.log(docs);

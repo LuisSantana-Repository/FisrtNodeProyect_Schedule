@@ -1,4 +1,5 @@
 
+const { password } = require("./config");
 const {mongoose} = require("./connectdb")
 const bcrypt = require("bcryptjs")
 const UserSchema = new mongoose.Schema(
@@ -10,6 +11,9 @@ const UserSchema = new mongoose.Schema(
         email: {
             type: String,
             required: true
+        },
+        Curiculum:{
+            type: String
         },
         password: {
             type: String,
@@ -93,10 +97,7 @@ UserSchema.statics.findUser  = async(email)=>{
 
 UserSchema.statics.updateUser= async (email, UserData)=>{
     delete UserData.email
-    if (UserData.password){
-        let hash = bcrypt.hashSync(UserData.password, 10)
-        UserData.password = hash; 
-    }
+    console.log(UserData)
     let updatedUser = await User.findOneAndUpdate({email},
                                 {$set: UserData},
                                 {new:true}
@@ -123,3 +124,12 @@ UserSchema.statics.authUser = async(email, password)=>{
 }
 let User = mongoose.model('User', UserSchema)
 module.exports = {User}
+
+
+// User.saveUser({
+//     name:"Luis Santana",
+//     email:"angel@iteso.mx",
+//     Curiculum:"ISC",
+//     password:"A",
+//     userType:2
+// });

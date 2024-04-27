@@ -19,7 +19,9 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link rel="stylesheet" href="admin.css">
         <script src="admin.js"></script>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="nav.js"></script>
+        
     </head>
 
     <body>
@@ -54,7 +56,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <a class="text-white text-decoration-none my-2" href="index.html" ><i class="bi bi-arrow-bar-right"></i> Log Out</i></a>
+                                <a class="text-white text-decoration-none my-2" href="index.html" onclick="logOut()" ><i class="bi bi-arrow-bar-right"></i> Log Out</i></a>
                             </td>
                         </tr>
                     </table>
@@ -107,8 +109,7 @@
             <hr>
 
 
-            <a class="noHilight" href="" data-bs-toggle="modal"
-            data-bs-target="#Subjects">
+            <a class="noHilight" onclick="showSubjects()">
             <div class="card">
                 <i class="bi bi-card-list"></i>
                 <div class="container">
@@ -245,98 +246,7 @@
 
 
 <!-- Modal -->
-              <div
-                class="modal fade modal-lg"
-                id="Subjects"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="modalTitleId"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalTitleId">
-                                Subjects
-                            </h5>
-                            <button
-                                type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                            ></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="input-group mb-3">
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder=""
-                                        aria-label="Button"
-                                        aria-describedby=""
-                                    />
-                                    <button class="btn btn-outline-secondary" type="button" id="">
-                                        Search
-                                    </button>
-                                </div>
-                                <table class="table">
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Subject</th>
-                                        <th scope="col">Area</th>
-                                        <th scope="col">info</th>
-                                        <th scope="col">Eliminate</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <th scope="row">
-                                            1
-                                        </th>
-                                        <td>Programacion Orientada a Objetos</td>
-                                        <td>ISC</td>
-                                        <td>
-                                            <button
-                                                type="button"
-                                                class="btn btn-primary btn-lg"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#info"
-                                            >
-                                            <i class="bi bi-info-circle-fill"></i>
-                                            </button>
-                                        </td>
-                                        <td><div class="d-grid gap-2">
-                                            <button
-                                                type="button"
-                                                name=""
-                                                id=""
-                                                class="btn btn-danger"
-                                            >
-                                                Eliminate
-                                            </button>
-                                        </div>
-                                    </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                            >
-                                Close
-                            </button>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#addSubject">New</button>
-                        </div>
-                    </div>
-                </div>
-              </div>
+              
               
               <!-- Modal -->
               <div
@@ -851,6 +761,7 @@ aria-hidden="true"
                         name="btnradio"
                         id="btncheck1"
                         autocomplete="off" checked
+                        onclick="unhide()"
                     />
                     <label
                         class="btn btn-outline-primary"
@@ -864,6 +775,7 @@ aria-hidden="true"
                         name="btnradio"
                         id="btncheck2"
                         autocomplete="off"
+                        onclick="unhide()"
                     />
                     <label
                         class="btn btn-outline-primary"
@@ -877,6 +789,7 @@ aria-hidden="true"
                         name="btnradio"
                         id="btncheck3"
                         autocomplete="off"
+                        onclick="hide()"
                     />
                     <label
                         class="btn btn-outline-primary"
@@ -884,7 +797,14 @@ aria-hidden="true"
                         >Admin</label
                     >
                 </div>
-                
+
+
+                <div class="btn-group justify-content-center" role="group" aria-label="Curriculum Selection" id="Curiculum">
+                    <input type="radio" class="btn-check d-block" name="curriculum" id="ISC" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="ISC">ISC</label>
+                    <input type="radio" class="btn-check d-block" name="curriculum" id="IDC" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="IDC">IDC</label>
+                </div>
                 
             </div>
             <div class="modal-footer">
@@ -975,3 +895,114 @@ aria-hidden="true"
         </div>
     </div>
 </div>
+
+
+<div
+        class="modal fade modal-lg"
+                id="Subjects"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="modalTitleId"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">
+                                Subjects
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="input-group mb-3">
+                                    <input
+                                        id="SubjectName"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="name"
+                                        aria-label="Button"
+                                        aria-describedby=""
+                                        onchange="Subjects()"
+                                    />
+                                    <button class="btn btn-outline-secondary" type="button" id="" onclick="Subjects()">
+                                        Search
+                                    </button>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Subject</th>
+                                        <th scope="col">Area</th>
+                                        <th scope="col">info</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody id="SubjectList">
+                                      
+                                    </tbody>
+                                  </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+<div
+    class="modal fade"
+    id="info"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalTitleId"
+    aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleId">
+                    Dependencies
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <ol id="InfoList">
+                        
+                        <li>
+                            Base de datos Relacionales
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="showSubjects()"
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

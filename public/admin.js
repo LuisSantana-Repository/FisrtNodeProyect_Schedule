@@ -30,66 +30,81 @@ function toRowUser(User){
     return html
 }
 
-async function create(){
+async function create() {
     event.preventDefault()
-    let Fname = document.getElementById("FirtsN").value
-    let Lname = document.getElementById("LastN").value
-    let email = document.getElementById("email").value
-    let password1 = document.getElementById("Password1").value
-    let password2 = document.getElementById("Password2").value
-    let type1 = document.getElementById("btncheck1").checked
-    let type2 = document.getElementById("btncheck2").checked
-    let type3 = document.getElementById("btncheck3").checked
-    
-    let num;
-    if(type1) num =0;
-    if(type2) num=1;
-    if(type3) num=2
-    let token = localStorage.getItem("Token")
+    let Fname = document.getElementById("FirtsN").value;
+    let Lname = document.getElementById("LastN").value;
+    let email = document.getElementById("email").value;
+    let password1 = document.getElementById("Password1").value;
+    let password2 = document.getElementById("Password2").value;
+    let type1 = document.getElementById("btncheck1").checked;
+    let type2 = document.getElementById("btncheck2").checked;
+    let type3 = document.getElementById("btncheck3").checked;
+    let ISC = document.getElementById('ISC').checked;
+    let IDC = document.getElementById('IDC').checked;
 
-    console.log(Fname,Lname,email,password1,password2,type1,type2,type3,num,token);
-    if(password1 !== password2){
-        swal({
+    let num;
+    if (type1) num = 0;
+    if (type2) num = 1;
+    if (type3) num = 2;
+
+    let schedule;
+    if (ISC) {
+        schedule = 'ISC';
+    } else {
+        schedule = 'IDC';
+    }
+
+    console.log(schedule);
+    let token = localStorage.getItem("Token");
+
+    console.log(Fname, Lname, email, password1, password2, type1, type2, type3, num, token);
+
+    if (password1 !== password2) {
+        Swal.fire({
             title: "Not same Passwords",
             icon: "error",
         });
-        return
+        return;
     }
 
     let Response = await fetch('/api/User', {
         method: 'POST',
-        headers:{
-            "x-token":token,
+        headers: {
+            "x-token": token,
             "x-auth": "23423",
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "name":Fname+" "+Lname,
-            "email": email+"@iteso.mx",
-            "password" : password1,
-            "userType": num
+            "name": Fname + " " + Lname,
+            "email": email + "@iteso.mx",
+            "password": password1,
+            "userType": num,
+            "Curiculum": schedule
         })
-    })
-    let data = await Response.json()
-    if(data.error){
-        swal({
+    });
+
+    let data = await Response.json();
+    if (data.error) {
+        Swal.fire({
             title: data.error,
             icon: "error",
-            
         });
-    }else{
-        swal({
-            title: `Success status: ${Response.status} `,
+    } else {
+        Swal.fire({
+            title: `Success status: ${Response.status}`,
             icon: "success",
         });
     }
 }
 
 async function showList(){
+
     list()
     let modalId = document.getElementById('ListUsers');
     let myModal = new bootstrap.Modal(modalId, {});
     myModal.show();
+
 }
 async function listDosentExist(){
     list();
@@ -143,71 +158,179 @@ async function list(){
     document.getElementById('Admin').innerHTML=table;
 }
 
+function toRowSubject(Subject,num){
+    let html = /*html*/`
+        <tr>
+                                    <th scope="row">
+                                            ${num}
+                                        </th>
+                                        <td>${Subject.name}</td>
+                                        <td>${Subject.Curiculum.join('/')}</td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary btn-lg"
+                                                onclick="showinfo('${Subject._id}')"
+                                            >
+                                            <i class="bi bi-info-circle-fill"></i>
+                                            </button>
+                                        </td>
+                                </tr>
+    `
+    return html
+}
+async function showSubjects(){
+    let infoModalId = document.getElementById('info');
+    let infoModal = bootstrap.Modal.getInstance(infoModalId);
+    if (infoModal) {
+        infoModal.hide();
+    }
+
+    
+    Subjects()
+    let modalId = document.getElementById('Subjects');
+    let myModal = new bootstrap.Modal(modalId, {});
+    myModal.show();
+}
+
+function toInfoHTML(u){
+    let html=/*html*/`
+        <li>
+            ${u.name}
+        </li>
+    `
+    return html;
+}
+async function showinfo(u){
+    console.log(u)
+    let request = await fetch('/api/Class/populate/'+u, {
+        method: 'GET',
+        headers:{
+        }
+    })
+    let data = await request.json()
+    console.log(data)
+    let response = data.requirements.map(u=> toInfoHTML(u))
+    document.getElementById('InfoList').innerHTML = response
 
 
 
 
-async function EliminateUser(email){
-    let token =localStorage.getItem("Token")
-    swal({
-        title: "Are you sure?",
+    let subjectModalId = document.getElementById('Subjects');
+    let subjectModal = bootstrap.Modal.getInstance(subjectModalId);
+    if (subjectModal) {
+        subjectModal.hide();
+    }
+
+
+
+
+    let modalId = document.getElementById('info');
+    let myModal = new bootstrap.Modal(modalId, {});
+    myModal.show();
+}
+async function Subjects(){
+    let name = document.getElementById('SubjectName').value;
+    let filter =''
+    if(name) filter = '?name='+name
+    let request = await fetch('/api/Class/'+filter, {
+        method: 'GET',
+        headers:{
+        }
+    })
+    let data = await request.json()
+    let count=0
+    let table = data.users.map(u =>{
+        count +=1;
+        return toRowSubject(u,count)
+    }).join('')
+    console.log(table)
+    document.getElementById('SubjectList').innerHTML=table;
+}
+
+async function EliminateUser(email) {
+    const result = await Swal.fire({
+        title: 'Are you sure?',
         text: `You want to delete ${email}?`,
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then(async(willDelete) => {
-        if (willDelete) {
-            let response = await fetch('/api/User/'+email, {
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        reverseButtons: true, 
+    });
+
+    if (result.isConfirmed) {
+        let response = await fetch('/api/User/' + email, {
             method: 'DELETE',
             headers: {
-                "x-token":token,
-                "x-auth": "23423",
+                // Add any necessary headers here
             }
-        })
-        list()
-          swal("The User has been deleted!", {
-            icon: "success",
-          });
-        } else {
-          swal("Not deleted");
-        }
-      });
-}
-
-function changePassword(email){
-    swal({
-        title: `whats the new passwor for ${email}?`,
-        icon: "info",
-        content: {
-            element: "input",
-            attributes: {
-                placeholder: "Enter new password",
-                type: "password", // Optionally specify the input type,
-            }
-        },
-        buttons: true,
-    })
-      .then(async (selected) => {
-        if (selected) {
-            console.log(selected)
-            if(selected){
-                addItem()
-            }else{
-                swal({
-                    title: "Pasword not writen",
-                    icon: "error",
-                    
-                });
-            }
-        } 
-        else {
-          swal({
-            title: "No Password change",
-            icon: "info",
         });
+        if (response.ok) {  // Check if the delete was successful
+            await Swal.fire('Deleted!', 'The User has been deleted!', 'success');
+            list();  // Assuming 'list()' is a function to refresh the list of users
+        } else {
+            await Swal.fire('Failed!', 'The User could not be deleted.', 'error');
         }
-      });
+    } else if (result.isDismissed) {
+        Swal.fire('Cancelled', 'Not deleted', 'error');
+    }
+}
+
+async function changePassword(email) {
+    Swal.fire({
+        title: `What's the new password for ${email}?`,
+        input: 'text',
+        inputPlaceholder: 'Enter new password',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Change Password',
+        cancelButtonText: 'Cancel',
+        preConfirm: async (newPassword) => {
+            if (!newPassword) {
+                Swal.showValidationMessage("You must enter a password.");
+                return false;
+            }
+            try {
+                let response = await fetch('/api/User/' + email, {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "password": newPassword
+                    })
+                });
+                let data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to update password');
+                }
+                return data;
+            } catch (error) {
+                Swal.showValidationMessage(`Update failed: ${error.message}`);
+                return false;
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed && result.value) {
+            Swal.fire({
+                title: 'Password Changed',
+                text: `The password for ${email} has been changed successfully.`,
+                icon: 'success'
+            });
+        } else if (result.isDismissed) {
+            Swal.fire('Cancelled', 'No password change was made.', 'info');
+        }
+    });
 }
 
 
+
+function hide(){
+    document.getElementById('Curiculum').hidden =true;
+}
+function unhide(){
+    document.getElementById('Curiculum').hidden =false
+}

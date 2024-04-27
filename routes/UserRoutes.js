@@ -5,9 +5,10 @@ const auth = require('../middlewares/auth')
 const {nanoid} = require('nanoid')
 const fs = require('fs')
 const { password } = require("../db/config")
+const bcrypt = require("bcryptjs")
 
 // console.log(users);
-router.get('/', auth.validateHeader, auth.requiredAdmin, async (req,res)=>{
+router.get('/', auth.validateCookie, auth.requiredAdmin, async (req,res)=>{
     console.log(req.query);
    
     let filters = {}
@@ -37,10 +38,26 @@ router.get('/', auth.validateHeader, auth.requiredAdmin, async (req,res)=>{
 })
 
 
-//shoud be require token but not jet done correctly on html
-router.get('/:email',auth.validateHeader, auth.requiredAdmin, async (req, res)=>{
+
+router.get('/classes',auth.validateCookie, async (req, res)=>{
     console.log(req.params.id);
-    let user = await User.findUser(req.params.email)
+    let email = req.email
+    let user = await User.findUser(email)
+    let user2 = await User.findOne({email})
+    let notIn = await Class.findCLasesNotIn(user2)
+
+    console.log(user)
+    if (!user){
+        res.status(404).send({error: "User not found"})
+        return;
+    }
+    res.send({user,notIn})
+})
+
+router.get('/getme',auth.validateCookie, async (req, res)=>{
+    console.log(req.params.id);
+    let email = req.email
+    let user = await User.findUser(email)
     console.log(user)
     if (!user){
         res.status(404).send({error: "User not found"})
@@ -50,10 +67,9 @@ router.get('/:email',auth.validateHeader, auth.requiredAdmin, async (req, res)=>
 })
 
 
-
-router.post('/',auth.validateHeader,auth.requiredAdmin,async (req,res)=>{
+router.post('/',auth.validateCookie,auth.requiredAdmin,async (req,res)=>{
     console.log(req.body);
-    let {name, email, password,userType } = req.body;
+    let {name, email, password,userType,Curiculum } = req.body;
     if( name && name.trim() && email && email.trim() && Number.isInteger(userType) && userType>=0 && userType<3){
         
         // let user = users.find(u => u.email == email)
@@ -63,14 +79,24 @@ router.post('/',auth.validateHeader,auth.requiredAdmin,async (req,res)=>{
             return 
         }
         let userObj;
+        
         if(userType==0){
-            let Available = await Class.filterClassesToHaveAllRequirements()
+            let Available = await Class.filterClassesToHaveAllRequirements([],Curiculum)
             Available = Available.map(obj => obj._id)
             console.log(Available)
             userObj = {name, email, uid: nanoid(6), password, userType, Available}
         }
         else{
             userObj = {name, email, uid: nanoid(6), password, userType}
+        }
+        if(userType==1 || userType==0){
+            if(Curiculum && (Curiculum=="ISC" || Curiculum=="IDC")){
+                userObj.Curiculum = Curiculum; 
+                console.log(userObj)
+            }else{
+                res.status(400).send({error:"DOES NOT HAVE A CURRICULUM"})
+                return
+            }
         }
         let newUser = await User.saveUser(userObj)
         //users.push(userObj)
@@ -94,10 +120,113 @@ router.post('/',auth.validateHeader,auth.requiredAdmin,async (req,res)=>{
 })
 
 
+
+//update in schedule cart, for the user that has inscribed thsi class and he says its completed in this fucntion
+router.put('/completedPassingClass',auth.validateCookie,async (req,res)=>{
+    let user = await User.findUser(req.email)
+    let {ClassID} = req.body;
+    if(ClassID){
+        let newclass = await Class.findClass(ClassID)
+        if(newclass){
+            let id = newclass._id
+            console.log(id)
+            console.log(user)
+            console.log(user.Completed.includes(id))
+            if(user.Completed.includes(id)){
+                res.status(404).send({error: 'Already Completed'})
+                return
+            }else{
+                user.Completed.push(id)
+                user.Passing = user.Passing.filter(item => item !== id);
+            }
+        }else{
+            res.status(404).send({error: 'Class dosent exist'})
+            return
+        }
+        
+    }else{
+        res.status(404).send({error:"NO information prvided"})
+        return
+    }
+    
+    let updatedUser = await User.updateUser(user.email, user);
+    //fs.writeFileSync('./data/usersdata.json', JSON.stringify(users) )
+    res.send(updatedUser)
+})
+
+
+
+//for when the schedule is made and the persone doing it decides to impelemnt passing in user
+router.put('/addPassingClass',auth.validateCookie,async (req,res) =>{
+    let user = await User.findUser(req.email)
+    let {ClassID} = req.body;
+    if(ClassID){
+        let newclass = await Class.findClass(ClassID)
+        if(newclass){
+            let id = newclass._id
+            console.log(id)
+            console.log(user)
+            console.log(user.Passing.includes(id))
+            if(user.Passing.includes(id)){
+                res.status(404).send({error: 'Already Passing'})
+                return
+            }else{
+                user.Passing.push(id)
+                user.Available = user.Available.filter(item => item !== id);
+            }
+        }else{
+            res.status(404).send({error: 'Class dosent exist'})
+            return
+        }
+        
+    }else{
+        res.status(404).send({error:"NO information prvided"})
+        return
+    }
+    
+    let updatedUser = await User.updateUser(user.email, user);
+    //fs.writeFileSync('./data/usersdata.json', JSON.stringify(users) )
+    res.send(updatedUser)
+
+})
+
+
+//add form avaliable array to completed array
+router.put('/addAvailableClass',auth.validateCookie,async (req,res)=>{
+    let user = await User.findUser(req.email)
+    let {ClassID} = req.body;
+    if(ClassID){
+        let newclass = await Class.findClass(ClassID)
+        if(newclass){
+            let id = newclass._id
+            //console.log(id)
+            //console.log(user)
+            //console.log(user.Completed.includes(id))
+            if(user.Completed.includes(id)){
+                res.status(404).send({error: 'Already inscribed'})
+                return
+            }else{
+                user.Completed.push(id)
+                user.Available = await Class.filterClassesToHaveAllRequirements(user.Completed,user.Curiculum)
+            }
+        }else{
+            res.status(404).send({error: 'Class dosent exist'})
+            return
+        }
+        
+    }
+    delete user.password;
+    console.log(user)
+    let updatedUser = await User.updateUser(user.email, user);
+    //fs.writeFileSync('./data/usersdata.json', JSON.stringify(users) )
+    res.send(updatedUser)
+}
+)
 //updating an existent object
-router.put('/:email',auth.validateHeader, async (req,res)=>{
+router.put('/:email',auth.validateCookie,auth.requiredAdmin, async (req,res)=>{
     //search for the id
     // let user = users.find( u => u.id == req.params.id)
+    
     let user  = await User.findUser(req.params.email)
 
     //if not found 
@@ -106,7 +235,6 @@ router.put('/:email',auth.validateHeader, async (req,res)=>{
         res.status(404).send({error: 'User not found'})
         return
     }
-       
     //if found
         // update data z
     let {name, password,ClassID} = req.body;
@@ -115,11 +243,10 @@ router.put('/:email',auth.validateHeader, async (req,res)=>{
     }
     //user.email = req.params.email;
     if(password){
-        if(!password){
-            delete user.password
-        }else{
+            let hash = bcrypt.hashSync(password, 10)
+            password = hash; 
+            console.log(hash)
             user.password = password
-        }
     }
     if(ClassID){
         let newclass = await Class.findClass(ClassID)
@@ -133,7 +260,7 @@ router.put('/:email',auth.validateHeader, async (req,res)=>{
                 return
             }else{
                 user.Completed.push(id)
-                user.Available = await Class.filterClassesToHaveAllRequirements(user.Completed)
+                user.Available = await Class.filterClassesToHaveAllRequirements(user.Completed,user.Curiculum)
             }
         }else{
             res.status(404).send({error: 'Class dosent exist'})
@@ -147,7 +274,29 @@ router.put('/:email',auth.validateHeader, async (req,res)=>{
     res.send(updatedUser)
 })
 
-router.delete('/:email', auth.validateHeader, auth.requiredAdmin, async (req, res)=>{
+router.put('/Password/test',auth.validateCookie,async(req,res)=>{
+    let {old,password} = req.body;
+    let user = await User.authUser(req.email, old)
+    console.log("SEARCHING FOR A USSEERRRRR")
+    if(!user){
+        res.status(401).send({error: "Password not correct"})
+        return
+    }
+    if(password){
+        let hash = bcrypt.hashSync(password, 10)
+        password = hash; 
+        console.log(hash)
+        user.password = password
+        let updatedUser = await User.updateUser(req.email, user);
+        res.send(updatedUser)
+        return
+    }
+
+    res.status(404).send({error: 'Password not recived'})
+    return
+})
+
+router.delete('/:email', auth.validateCookie, auth.requiredAdmin, async (req, res)=>{
     // search for the id
     // let pos= users.findIndex(u => u.id == req.params.id)
     

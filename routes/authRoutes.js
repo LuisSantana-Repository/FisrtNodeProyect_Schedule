@@ -2,6 +2,7 @@ const router = require("express").Router()
 const e = require("express");
 const {User} = require('../db/User')
 const jwt = require('jsonwebtoken')
+const auth = require('../middlewares/auth')
 
 router.post('/', async(req,res)=>{
     let {email, password} = req.body;
@@ -14,8 +15,10 @@ router.post('/', async(req,res)=>{
     
 
     let token = jwt.sign({ email: user.email, _id: user._id},
-                         process.env.TOKEN_KEY,
+                        process.env.TOKEN_KEY,
                          {expiresIn: 60 * 3} );
+
+    
     
 
     //redirect page needed for type of user once integrating html
@@ -33,8 +36,15 @@ router.post('/', async(req,res)=>{
         default:
             break;
     }
-    res.send({token , redirect})
+    res.cookie('access_token',token,{
+        httpOnly: true,
+        secure: process.env.NODE_ENV== 'production'
+    }).send({redirect})
+
 })
 
+router.get('/logout',auth.validateCookie,(req,res)=>{
+    return res.clearCookie('access_token')
+})
 
 module.exports = router;
