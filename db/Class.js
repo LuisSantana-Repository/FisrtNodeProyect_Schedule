@@ -99,12 +99,13 @@ ClassSchema.statics.findCLasesNotIn = async(user)=>{
     return doc;
 }
 
-ClassSchema.statics.findClasses = async (filter={}, 
-    isAdmin = false,)=>{
-   let proj = isAdmin? {}: {name:1, email:1, _id:0} ;
-   let docs =  Class.find(filter,proj).sort({name:1})
-                    //.populate('images', 'name url -_id')
-   let count = Class.find(filter).count()
+ClassSchema.statics.findClasses = async (filter={}, pageNumber=1, pageSize=10)=>{
+
+   let docs =  Class.find(filter)
+                    .sort({name:1})
+                    .skip((pageNumber-1)*pageSize)
+                    .limit(pageSize)
+   let count = Class.find({}).count()
 
    // we removed the await in previous lines to execute both queries and wait for both 
    // it is not the same than wait the first to finish to execute the second. 

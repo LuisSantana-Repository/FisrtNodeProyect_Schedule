@@ -229,13 +229,27 @@ async function showinfo(u){
     let myModal = new bootstrap.Modal(modalId, {});
     myModal.show();
 }
+
+async function newPaguiantion(){
+    sessionStorage.setItem("paguination","1")
+    Subjects()
+}
+async function SetPaguination(u){
+    sessionStorage.setItem("paguination",`${u}`)
+    console.log(u)
+    Subjects()
+}
 async function Subjects(){
     let name = document.getElementById('SubjectName').value;
-    let filter =''
-    if(name) filter = '?name='+name
+    let pageNumber = Number.parseInt(sessionStorage.getItem("paguination"))
+    let filter ='?pageNumber='+pageNumber
+
+    if(name) filter = '&name='+name
+
     let request = await fetch('/api/Class/'+filter, {
         method: 'GET',
         headers:{
+            "Content-Type": "application/json"
         }
     })
     let data = await request.json()
@@ -246,6 +260,30 @@ async function Subjects(){
     }).join('')
     console.log(table)
     document.getElementById('SubjectList').innerHTML=table;
+
+    let html = /*html*/`
+        <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    `
+    for (let index = 0; index < data.total/10; index++) {
+        let page = index+1
+        if(pageNumber != page){
+            html+=/*html*/`
+                <li class="page-item"><a class="page-link" onclick="SetPaguination('${page}')">${page}</a></li>
+            `
+        }else{
+            html+=/*html*/`
+                <li class="page-item active"><a class="page-link" onclick="SetPaguination('${page}')" >${page}</a></li>
+            `
+        }
+    }
+    html+=/*html*/`
+        </ul>
+    </nav>
+    `
+    document.getElementById('PaguinationClassList').innerHTML=html;
+
+
 }
 
 async function EliminateUser(email) {
@@ -334,3 +372,5 @@ function hide(){
 function unhide(){
     document.getElementById('Curiculum').hidden =false
 }
+
+sessionStorage.setItem("paguination","1")

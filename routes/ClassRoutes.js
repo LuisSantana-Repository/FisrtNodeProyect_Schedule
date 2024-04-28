@@ -7,14 +7,16 @@ const { error } = require("console")
 
 
 router.get('/', auth.validateCookie, auth.requiredAdmin, async (req,res)=>{
-    let {name} = req.query;
+    let {name,pageNumber} = req.query;
     let filters= {}
     if(name){
         filters.name = new RegExp(name,'i') //  /name/i 
     }
-    let filteredClass = await Class.findClasses(filters,req.admin)
+    let filteredClass = await Class.findClasses(filters,pageNumber)
     res.send(filteredClass)
 })
+
+
 router.get('/populate/:id',auth.validateCookie, auth.requiredAdmin, async (req,res)=>{
     let id = req.params.id
     if(id){

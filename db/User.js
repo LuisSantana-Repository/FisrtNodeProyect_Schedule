@@ -85,7 +85,8 @@ UserSchema.statics.saveUser = async (userData)=>{
 }
 
 UserSchema.statics.findUser  = async(email)=>{
-    let user = await User.findOne({email})
+    let proj = {name:1, email:1, _id:0} ;
+    let user = await User.findOne({email},proj)
         .populate('Completed')
         .populate('Passing')
         .populate('Available');
