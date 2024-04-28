@@ -105,7 +105,7 @@ ClassSchema.statics.findClasses = async (filter={}, pageNumber=1, pageSize=10)=>
                     .sort({name:1})
                     .skip((pageNumber-1)*pageSize)
                     .limit(pageSize)
-   let count = Class.find({}).count()
+   let count = Class.find(filter).count()
 
    // we removed the await in previous lines to execute both queries and wait for both 
    // it is not the same than wait the first to finish to execute the second. 

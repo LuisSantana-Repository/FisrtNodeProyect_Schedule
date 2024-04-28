@@ -244,7 +244,7 @@ async function Subjects(){
     let pageNumber = Number.parseInt(sessionStorage.getItem("paguination"))
     let filter ='?pageNumber='+pageNumber
 
-    if(name) filter = '&name='+name
+    if(name) filter += '&name='+name
 
     let request = await fetch('/api/Class/'+filter, {
         method: 'GET',
