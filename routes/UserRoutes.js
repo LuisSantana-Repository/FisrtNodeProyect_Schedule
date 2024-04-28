@@ -206,6 +206,10 @@ router.put('/addAvailableClass',auth.validateCookie,async (req,res)=>{
                 res.status(404).send({error: 'Already inscribed'})
                 return
             }else{
+                if(!user.Available.includes(id)){
+                    res.status(404).send({error: 'You shoudnt be able to complete this class'})
+                    return
+                }
                 user.Completed.push(id)
                 user.Available = await Class.filterClassesToHaveAllRequirements(user.Completed,user.Curiculum)
             }
