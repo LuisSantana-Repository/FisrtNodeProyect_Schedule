@@ -37,7 +37,7 @@ CourseSchema.statics.addCourse = async (courseData)=>{
 }
 
 CourseSchema.statics.findCourses = async (filters={})=>{
-    let docs = await Course.find(filters).sort(classID);
+    let docs = await Course.find(filters);
     return docs;
 }
 

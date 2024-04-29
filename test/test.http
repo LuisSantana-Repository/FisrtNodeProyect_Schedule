@@ -81,8 +81,98 @@ x-auth: 23423
 
 DELETE  {{host}}/api/images/test@test.com/soraImg3
 
-###
+### Log In as admin ----------------------------------------------------------------------------------------------------------
+
+POST {{host}}/api/login
+Content-Type: application/json
+
+{
+    "email": "angel@iteso.mx",
+    "password" : "a"
+}
+
+###     Create New User
+
+POST {{host}}/api/User
+Content-Type: application/json
+
+{
+    "name": "pelayoTest",
+    "email": "PT@iteso.mx",
+    "password" : "a",
+    "userType": 0,
+    "Curiculum": "ISC"
+}
+
+### Check the new user exists
+
+GET {{host}}/api/User
+
+
+### Log in as the new user
+
+POST {{host}}/api/login
+Content-Type: application/json
+
+{
+    "email": "PT@iteso.mx",
+    "password" : "a"
+}
+
+### Create a new schedule for the user
+POST {{host}}/api/Schedule
+Content-Type: application/json
+
+{
+    "name": "Horario1"
+}
+
+### View all existing courses
 
 GET {{host}}/api/Course
+
+### Filter courses
+
+GET {{host}}/api/Course
+Content-Type: application/json
+
+{
+    "classID": "46366"
+}
+
+### Obtain courses that the user can add to their shchedule
+
+GET {{host}}/api/Schedule?name=Horario1?classID=324
+
+
+### Add a course to the user
+
+PUT {{host}}/api/Schedule
+Content-Type: application/json
+{
+    "name": "Horario1",
+    "courseID": "XD"
+}
+
+### Remove a course from the users schedule
+
+DELETE {{host}}/api/Schedule
+Content-Type: application/json
+{
+    "name": "Horario1",
+    "courseID": "XD"
+}
+
+### Remove a schedule from the user
+
+DELETE {{host}}/api/Schedule
+Content-Type: application/json
+{
+    "name": "Horario1"
+}
+
+### Log out (delete cookie)
+
+GET {{host}}/api/login/logout
 
 
