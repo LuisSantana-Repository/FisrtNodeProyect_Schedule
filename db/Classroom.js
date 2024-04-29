@@ -17,12 +17,12 @@ const ClassroomSchema = new mongoose.Schema(
         number:{
             type: Number,
             required:true
-        },
+        }
     }
 )
 
 ClassroomSchema.statics.findClassroom = async (filters={})=>{
-    let docs = await Classroom.find(filters).sort(ClassroomID);
+    let docs = await Classroom.find(filters).sort("building number");
     return docs;
 }
 
