@@ -1,5 +1,6 @@
 const {mongoose} = require("./connectdb")
-const ScheduleSchema = new mongoose.Schema(
+
+const scheduleSchema = new mongoose.Schema(
     {
         UserID: {
             type: String,
@@ -17,32 +18,19 @@ const ScheduleSchema = new mongoose.Schema(
     }
 ) 
 
-// userSchema.statics.getSchedule= async(UserID) => {
-//     let schedule = await Schedule.findOne({UserID})
-//                            //.populate('curse', 'Schedule', url');
-//     console.log(schedule);
-//     return schedule;
-// }
+scheduleSchema.statics.findSchedule = async (req) =>{
+    let doc = await Schedule.findOne({"UserID":req.email});
+    console.log(doc);
+    return doc;
+}
 
-// userSchema.statics.addClasses = async (UserID, ClassesID)=>{
-//     const schedule = await Schedule.findOne({UserID})
-//                                     //.populate()
-//     if(schedule){
-        
-//     }else{
-
-//     }
-//     return {error: "user not found"}
-// }
-
-// userSchema.statics.createSchedule= async (UserID)=>{
-
-// }
-
-// userSchema.statics.removeClass = async(UserID,ClassesID)=>{
-
-// }
+scheduleSchema.statics.createSchedule = async (req) =>{
+    let newSchedule = Schedule({"UserID":req.email, "name":req.name});
+    return await newSchedule.save();
+}
 
 
-// let Schedule = mongoose.model('Schedule', ScheduleSchema)
-//module.exports = {Schedule}
+
+
+let Schedule = mongoose.model('Schedule', scheduleSchema)
+module.exports = {Schedule}

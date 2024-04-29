@@ -3,6 +3,7 @@ const UserRoutes = require('./routes/UserRoutes')
 const authRoute = require('./routes/authRoutes')
 const ClassRoutes = require('./routes/ClassRoutes')
 const CourseRoutes = require('./routes/CourseRoutes')
+const ScheduleRoutes = require('./routes/ScheduleRoutes')
 const path = require('path')
 const app = express();
 const port = process.env.PORT || 3001;
