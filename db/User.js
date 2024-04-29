@@ -73,7 +73,7 @@ UserSchema.statics.findUsers = async (filter={},
     let resp = await Promise.all([docs, count])
     let users = resp[0];
     let total =  resp[1];    
-    console.log(resp[0], resp[1]);
+    //console.log(resp[0], resp[1]);
     return {users, total}
 }
 
@@ -91,6 +91,11 @@ UserSchema.statics.findUser  = async(email)=>{
         .populate('Passing')
         .populate('Available');
 
+    //console.log(user)
+    return user;
+}
+UserSchema.statics.findUserNoPopulate  = async(email)=>{
+    let user = await User.findOne({email})
     //console.log(user)
     return user;
 }

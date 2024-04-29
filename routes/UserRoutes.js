@@ -46,7 +46,7 @@ router.get('/classes',auth.validateCookie, async (req, res)=>{
     let user2 = await User.findOne({email})
     let notIn = await Class.findCLasesNotIn(user2)
 
-    console.log(user)
+    //console.log(user)
     if (!user){
         res.status(404).send({error: "User not found"})
         return;
@@ -193,7 +193,8 @@ router.put('/addPassingClass',auth.validateCookie,async (req,res) =>{
 
 //add form avaliable array to completed array
 router.put('/addAvailableClass',auth.validateCookie,async (req,res)=>{
-    let user = await User.findUser(req.email)
+    let email = req.email
+    let user = await User.findOne({email})
     let {ClassID} = req.body;
     if(ClassID){
         let newclass = await Class.findClass(ClassID)
@@ -206,12 +207,17 @@ router.put('/addAvailableClass',auth.validateCookie,async (req,res)=>{
                 res.status(404).send({error: 'Already inscribed'})
                 return
             }else{
-                if(!user.Available.includes(id)){
+                if((user.Available.includes(id))){
+                    console.log( user.Available.includes(id))
+                    user.Completed.push(id)
+                    user.Available = await Class.filterClassesToHaveAllRequirements(user.Completed,user.Curiculum)
+                    
+                }else{
+                    console.log(user)
                     res.status(404).send({error: 'You shoudnt be able to complete this class'})
                     return
                 }
-                user.Completed.push(id)
-                user.Available = await Class.filterClassesToHaveAllRequirements(user.Completed,user.Curiculum)
+                
             }
         }else{
             res.status(404).send({error: 'Class dosent exist'})
@@ -220,7 +226,7 @@ router.put('/addAvailableClass',auth.validateCookie,async (req,res)=>{
         
     }
     delete user.password;
-    console.log(user)
+    //console.log(user)
     let updatedUser = await User.updateUser(user.email, user);
     //fs.writeFileSync('./data/usersdata.json', JSON.stringify(users) )
     res.send(updatedUser)
