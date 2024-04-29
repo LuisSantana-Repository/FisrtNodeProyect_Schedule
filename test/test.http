@@ -81,4 +81,8 @@ x-auth: 23423
 
 DELETE  {{host}}/api/images/test@test.com/soraImg3
 
+###
+
+GET {{host}}/api/Course
+
 
