@@ -71,6 +71,17 @@ function validateCookie(req,res,next){
     })
 }
 
+async function requireProfessor(req, res, next){
+    let email = req.email;
+    let user = await User.findOne({email})
+    console.log(user)
+    if(user.userType == 1 && user.userType == 2){
+        req.access = true
+        next();
+        return;
+    }
+    res.status(401).send({error: 'Access Unauthorized'})
+} 
 
-module.exports = {validateToken, validateHeader, validateAdmin, requiredAdmin, validateCookie}
+module.exports = {validateToken, validateHeader, validateAdmin, requiredAdmin, validateCookie, requireProfessor}
 

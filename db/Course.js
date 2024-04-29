@@ -32,19 +32,33 @@ const CourseSchema = new mongoose.Schema(
 )
 
 CourseSchema.statics.addCourse = async (courseData)=>{
-    let newCourse = User(courseData);
+    let newCourse = Course(courseData);
     return await newCourse.save();
+}
+
+CourseSchema.statics.findCourses = async (filters={})=>{
+    let docs = await Course.find(filters).sort(classID);
+    return docs;
+}
+
+CourseSchema.statics.updateCourse = async (courseID, courseData)=>{
+    delete courseData.courseID;
+    let course = await Course.findOneAndUpdate({courseID},
+                                {$set: courseData},
+                                {new:true}
+                            )
+    return course;
 }
 
 let Course = mongoose.model('Course', CourseSchema)
 
-Course.addCourse({
-    professorID: "846552",
-    classroomID: "231568",
-    classID: "2548732",
-    studentCount: 21,
-    days: ["Monday", "Thursday"],
-    time: ["11:00-13:00", "9:00-11:00"]
-})
+// Course.addCourse({
+//     professorID: "846552",
+//     classroomID: "231568",
+//     classID: "2548732",
+//     studentCount: 21,
+//     days: ["Monday", "Thursday"],
+//     time: ["11:00-13:00", "9:00-11:00"]
+// })
 
 module.exports = {Course}
