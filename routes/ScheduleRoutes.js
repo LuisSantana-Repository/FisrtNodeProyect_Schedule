@@ -17,6 +17,42 @@ router.post('/', auth.validateCookie, async (req, res) =>{
     else res.status(400).send({error:"Invalid Schedule Name"})
 })
 
+async function findColition(course, userSchedule){
+    let available = true;
+    // for (let i = 0; i<course.days.length; i++){
+    //     if (!available) break; 
+    //     userSchedule.Courses.forEach( async (c)=> {
+    //         if (!available) return; 
+    //         let currentCourse = await Course.findCourse({courseID: c}); 
+    //         for (let j = 0; j<currentCourse.days.length; j++){ 
+    //             if (course.days[i]==currentCourse.days[j]) {
+    //                 if (course.time[i]==currentCourse.time[j]) {
+    //                     console.log("Collision in:", course.days[i], course.time[i]);
+    //                     available = false;
+    //                     break;
+    //                 }
+    //             } 
+    //         }
+    //     })
+    // }
+    for (let i = 0; i < course.days.length; i++) {
+        if (!available) break; 
+        for (let c of userSchedule.Courses) {
+            if (!available) break;  
+            let currentCourse = await Course.findCourse({ courseID: c });
+            for (let j = 0; j < currentCourse.days.length; j++) {
+                if (course.days[i] == currentCourse.days[j] && course.time[i] == currentCourse.time[j]) {
+                    console.log("Collision on:", course.days[i], course.time[i]);
+                    available = false;
+                    break;
+                }
+            }
+        }
+    }
+    console.log(available);
+    return available;
+}
+
 router.put('/', auth.validateCookie, async (req, res) =>{
     let {name, courseID} = req.body;
     if (name && courseID) {
@@ -35,30 +71,10 @@ router.put('/', auth.validateCookie, async (req, res) =>{
                     if (user.Completed.find((c)=> c==course.classID)) res.status(400).send({error:"You have already coursed that class"});
                     else if (user.Passing.find((c)=> c==course.classID)) res.status(400).send({error:"You are already coursing that class"});
                     else {
-                        let available = true;
-                        // TODO: Buscar si ya esta la(s) hora/dia ocupada de course
-                        for (let i = 0; i<course.days.length; i++){
-                            if (!available) break;
-                            userSchedule.Courses.forEach( async (c)=> {
-                                if (!available) return;
-                                let currentCourse = await Course.findCourse({courseID: c}); 
-                                for (let j = 0; j<currentCourse.days.length; j++){ 
-                                    if (course.days[i]==currentCourse.days[j]) {
-                                        if (course.time[i]==currentCourse.time[j]) {
-                                            console.log("Colission in:", course.days[i], course.time[i]);
-                                            available = false;
-                                            break;
-                                        }
-                                    } 
-                                }
-                            })
-                        }
-                        if (available) { //TODO: FIX, for some reason, available enters as true even when turned into false: Theory, some interaction with await
-                            console.log(available); // True when colition
+                        let available = await findColition(course, userSchedule);
+                        if (available) { 
                             let resp = await Schedule.pushCourse(req, courseID);
-                            console.log(available); // False when colition
                             res.status(200).send(resp);
-                            console.log("Added");
                             //Course.addOneStudent(courseID); // TODO: Completar metodo en Course.js
                         }
                         else res.status(400).send({error:"Course does not fit your schedule"});
