@@ -4,7 +4,8 @@ const auth = require('../middlewares/auth')
 
 router.get('/',  async (req, res)=>{
     let filters = {}
-    let {professorName, classID, classroomID} = req.query;
+    let {professorName, classID, classroomID, courseID} = req.query;
+    if (courseID) filters.courseID = courseID;
     if (professorName) filters.professorName = professorName;
     if (classID) filters.classID = classID;
     if (classroomID) filters.classroomID = classroomID;
