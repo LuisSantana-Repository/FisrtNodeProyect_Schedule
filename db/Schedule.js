@@ -1,44 +1,65 @@
-const {mongoose} = require("./connectdbs")
-const ScheduleSchema = new mongoose.Schema(
+const {mongoose} = require("./connectdb")
+
+const scheduleSchema = new mongoose.Schema(
     {
         UserID: {
             type: String,
             required: true
         },
-        Classes: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Classes',
+        name:{
+            type: String,
+            required: true
+        },
+        Courses: [{
+            type: String,
             default: []
         }]
     }
-)
+) 
 
-userSchema.statics.getSchedule= async(UserID) => {
-    let schedule = await Schedule.findOne({UserID})
-                           //.populate('curse', 'Schedule', url');
-    console.log(schedule);
-    return schedule;
+scheduleSchema.statics.findSchedule = async (req) =>{
+    console.log({"UserID":req.email, "name":req.name})
+    let doc = await Schedule.findOne({"UserID":req.email, "name":req.name});
+    console.log(doc);
+    return doc;
 }
 
-userSchema.statics.addClasses = async (UserID, ClassesID)=>{
-    const schedule = await Schedule.findOne({UserID})
-                                    //.populate()
-    if(schedule){
-        
-    }else{
-
-    }
-    return {error: "user not found"}
+scheduleSchema.statics.findSchedules = async (req) =>{
+    console.log({"UserID":req.email})
+    let doc = await Schedule.find({"UserID":req.email});
+    console.log(doc);
+    return doc;
 }
 
-userSchema.statics.createSchedule= async (UserID)=>{
-
+scheduleSchema.statics.createSchedule = async (req) =>{
+    let newSchedule = Schedule({"UserID":req.email, "name":req.name});
+    return await newSchedule.save();
 }
 
-userSchema.statics.removeClass = async(UserID,ClassesID)=>{
+scheduleSchema.statics.pushCourse = async (req, courseID) =>{
+    let current = await Schedule.findOne({"UserID":req.email, "name":req.name});
+    current.Courses.push(courseID);
+    return await Schedule.findOneAndUpdate({"UserID":req.email, "name":req.name},
+        {$set: current},
+        {new:true}
+    );
+}
 
+scheduleSchema.statics.abandonCourse = async (req, courseID) =>{
+    let current = await Schedule.findOne({"UserID":req.email, "name":req.name});
+    current.Courses = current.Courses.filter((c)=> c!=courseID);
+    return await Schedule.findOneAndUpdate({"UserID":req.email, "name":req.name},
+        {$set: current},
+        {new:true}
+    );
+}
+
+scheduleSchema.statics.deleteSchedule = async (req) =>{
+    return await Schedule.findOneAndDelete({"UserID":req.email, "name":req.name});
 }
 
 
-let Schedule = mongoose.model('Schedule', ScheduleSchema)
+let Schedule = mongoose.model('Schedule', scheduleSchema);
+
+
 module.exports = {Schedule}

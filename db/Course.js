@@ -2,7 +2,11 @@ const {mongoose} = require("./connectdb")
 
 const CourseSchema = new mongoose.Schema(
     {
-        professorID:{
+        courseID:{
+            type: String,
+            required:true
+        },
+        professorName:{
             type: String,
             required:true
         },
@@ -37,17 +41,24 @@ CourseSchema.statics.addCourse = async (courseData)=>{
 }
 
 CourseSchema.statics.findCourses = async (filters={})=>{
-    let docs = await Course.find(filters).sort(classID);
+    let docs = await Course.find(filters);
     return docs;
 }
 
 CourseSchema.statics.updateCourse = async (courseID, courseData)=>{
-    delete courseData.courseID;
     let course = await Course.findOneAndUpdate({courseID},
                                 {$set: courseData},
                                 {new:true}
                             )
     return course;
+}
+
+CourseSchema.statics.addOneUser = async (courseID)=>{
+    
+}
+
+CourseSchema.statics.removeOneUser = async (courseID)=>{
+    
 }
 
 let Course = mongoose.model('Course', CourseSchema)
