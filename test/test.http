@@ -124,7 +124,7 @@ POST {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "newSA123"
+    "name": "Horario2"
 }
 
 ### View all existing courses
@@ -155,13 +155,13 @@ PUT {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "Horario1",
-    "courseID": "TEST3469"
+    "name": "Horario2",
+    "courseID": "TEST3463"
 }
 
 ### Get user schedule
 
-GET {{host}}/api/Schedule?name=Horario1
+GET {{host}}/api/Schedule?name=Horario2
 
 ### Remove a course from the users schedule
 
@@ -169,8 +169,8 @@ DELETE {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "Horario1",
-    "courseID": "TEST3462"
+    "name": "Horario2",
+    "courseID": "TEST3463"
 }
 
 ### Remove a schedule from the user
