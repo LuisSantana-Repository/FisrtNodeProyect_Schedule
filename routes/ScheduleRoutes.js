@@ -79,7 +79,33 @@ router.get('/', auth.validateCookie, async (req, res) =>{
         res.status(404).send({error:"Information not found"});
         return;
     }
-    let {name} = req.query;
+    let {name, classID} = req.query;
+    // if (name && classID){
+    //     req.name = name;
+    //     let userSchedule = await Schedule.findSchedule(req);
+    //     let foundCourses = await Course.findCourses({classID});
+    //     let colitions = [];
+
+    //     foundCourses.forEach((course)=>{
+    //         for (let i = 0; i<course.days.length; i++){
+    //             userSchedule.Courses.forEach( async (c)=> {
+    //                 let currentCourse = await Course.findCourse({courseID: c}); 
+    //                 for (let j = 0; j<currentCourse.days.length; j++){ 
+    //                     if (course.days[i]==currentCourse.days[j]) {
+    //                         if (course.time[i]==currentCourse.time[j]) {
+    //                             console.log("Colission in:", course.days[i], course.time[i]);
+    //                             colitions.push(course.classID) // Once again, do it before the funcion ends
+    //                         }
+    //                     } 
+    //                 }
+    //             })
+    //         }
+    //     })
+    //     console.log(colitions)
+
+    //     res.status(200).send(foundCourses);
+    //     return;
+    // }
     if (name) {
         docs = docs.filter((s) => s.name==name);
     }
