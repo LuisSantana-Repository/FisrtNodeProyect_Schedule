@@ -146,10 +146,10 @@ GET {{host}}/api/Schedule
 
 ### Obtain courses that the user can add to their shchedule
 
-GET {{host}}/api/Schedule?name=Horario1?classID=324
+GET {{host}}/api/Schedule?name=Horario2&classID=662c0c66d35471bce3f86731
 
 
-### Add a course to the user --------NOT FINISHED
+### Add a course to the user -------- (Colitions bug)
 
 PUT {{host}}/api/Schedule
 Content-Type: application/json

@@ -18,16 +18,16 @@ const scheduleSchema = new mongoose.Schema(
 ) 
 
 scheduleSchema.statics.findSchedule = async (req) =>{
-    console.log({"UserID":req.email, "name":req.name})
+    //console.log({"UserID":req.email, "name":req.name})
     let doc = await Schedule.findOne({"UserID":req.email, "name":req.name});
-    console.log(doc);
+    //console.log(doc);
     return doc;
 }
 
 scheduleSchema.statics.findSchedules = async (req) =>{
-    console.log({"UserID":req.email})
+    //console.log({"UserID":req.email})
     let doc = await Schedule.find({"UserID":req.email});
-    console.log(doc);
+    //console.log(doc);
     return doc;
 }
 
