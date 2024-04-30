@@ -45,6 +45,11 @@ CourseSchema.statics.findCourses = async (filters={})=>{
     return docs;
 }
 
+CourseSchema.statics.findCourse = async (filters={})=>{
+    let docs = await Course.findOne(filters);
+    return docs==null?false:docs;
+}
+
 CourseSchema.statics.updateCourse = async (courseID, courseData)=>{
     let course = await Course.findOneAndUpdate({courseID},
                                 {$set: courseData},
