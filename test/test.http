@@ -124,49 +124,60 @@ POST {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "Horario1"
+    "name": "newSA123"
 }
 
 ### View all existing courses
 
 GET {{host}}/api/Course
 
-### Filter courses
+### Filter courses by class
 
-GET {{host}}/api/Course
-Content-Type: application/json
+GET {{host}}/api/Course?classID=662c0c66d35471bce3f86731
 
-{
-    "classID": "46366"
-}
+### Filter courses by professor
+
+GET {{host}}/api/Course?professorName=Paco Memo
+
+
+### Get users schedule names
+
+GET {{host}}/api/Schedule
 
 ### Obtain courses that the user can add to their shchedule
 
 GET {{host}}/api/Schedule?name=Horario1?classID=324
 
 
-### Add a course to the user
+### Add a course to the user --------NOT FINISHED
 
 PUT {{host}}/api/Schedule
 Content-Type: application/json
+
 {
     "name": "Horario1",
-    "courseID": "XD"
+    "courseID": "TEST3469"
 }
+
+### Get user schedule
+
+GET {{host}}/api/Schedule?name=Horario1
 
 ### Remove a course from the users schedule
 
 DELETE {{host}}/api/Schedule
 Content-Type: application/json
+
 {
     "name": "Horario1",
-    "courseID": "XD"
+    "courseID": "TEST3462"
 }
 
 ### Remove a schedule from the user
 
 DELETE {{host}}/api/Schedule
 Content-Type: application/json
+
 {
     "name": "Horario1"
 }
@@ -175,4 +186,25 @@ Content-Type: application/json
 
 GET {{host}}/api/login/logout
 
+### 
 
+POST {{host}}/api/Course
+Content-Type: application/json 
+
+{
+    "courseID": "TEST3412",
+    "professorName": "Luis Antonio",
+    "classID": "662c0c66d35471bce3f86731",
+    "classroomID": "T-201",
+    "days": [
+        "Wednesday"
+    ],
+    "time": [
+        "16:00-18:00"
+    ],
+    "studentCount": 0
+}
+
+
+### 
+GET {{host}}/api/Class
