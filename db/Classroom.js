@@ -2,10 +2,6 @@ const {mongoose} = require("./connectdb")
 
 const ClassroomSchema = new mongoose.Schema(
     {
-        classroomID:{
-            type: String,
-            required:true
-        },
         maxStudents:{
             type: Number,
             required:true
@@ -23,6 +19,17 @@ const ClassroomSchema = new mongoose.Schema(
 
 ClassroomSchema.statics.findClassroom = async (filters={})=>{
     let docs = await Classroom.find(filters).sort("building number");
+    return docs;
+}
+
+ClassroomSchema.statics.addClassroom = async (classroom)=>{
+    let newClassroom = Classroom(classroom);
+    //if (await Classroom.find({building: newClassroom.building, number:newClassroom.building})) return;
+    return await newClassroom.save();
+}
+
+ClassroomSchema.statics.deleteClassroom = async (filters={})=>{
+    let docs = await Classroom.findOneAndDelete(filters);
     return docs;
 }
 

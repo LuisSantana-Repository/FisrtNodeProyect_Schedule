@@ -2,21 +2,19 @@ const {mongoose} = require("./connectdb")
 
 const CourseSchema = new mongoose.Schema(
     {
-        courseID:{
-            type: String,
-            required:true
-        },
         professorName:{
             type: String,
-            required:true
+            default: "Not Assigned"
         },
         classroomID:{
-            type: String,
-            required:true
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Classroom',
+            default: "Not Assigned"
         },
         classID:{
-            type: String,
-            required:true
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Class',
+            default: "Not Assigned"
         },
         studentCount:{
             type: Number,
@@ -41,7 +39,10 @@ CourseSchema.statics.addCourse = async (courseData)=>{
 }
 
 CourseSchema.statics.findCourses = async (filters={})=>{
-    let docs = await Course.find(filters);
+    let docs = await Course.find(filters)
+                            .populate('classroomID')
+                            .populate('classID');
+    // console.log(filters, docs);
     return docs;
 }
 
@@ -76,5 +77,6 @@ let Course = mongoose.model('Course', CourseSchema)
 //     days: ["Monday", "Thursday"],
 //     time: ["11:00-13:00", "9:00-11:00"]
 // })
+
 
 module.exports = {Course}
