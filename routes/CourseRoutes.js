@@ -1,13 +1,24 @@
 const router = require("express").Router()
 const {Course} = require('../db/Course')
+const {Class} = require("../db/Class")
 const auth = require('../middlewares/auth')
+const {mongoose} = require("../db/connectdb")
 
 router.get('/',  async (req, res)=>{
     let filters = {}
     let {professorName, classID, classroomID, courseID} = req.query;
-    if (courseID) filters._id = courseID;
+    if (courseID) {
+        // let doc = await Course.find({"_id": courseID})
+        // filters._id = doc._id;
+        filters.classroomID = classroomID;
+    }
     if (professorName) filters.professorName = professorName;
-    if (classID) filters.classID = classID;
+    if (classID) {
+        // let doc = await Class.findById(new mongoose.Types.ObjectId(classID))
+        // console.log(doc)
+        // filters.classID = doc._id;
+        filters.classID = classID;
+    }
     if (classroomID) filters.classroomID = classroomID;
     let filteredCourses = await Course.findCourses(filters);
     //console.log(filters)

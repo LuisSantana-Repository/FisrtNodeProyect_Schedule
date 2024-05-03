@@ -42,7 +42,7 @@ CourseSchema.statics.findCourses = async (filters={})=>{
     let docs = await Course.find(filters)
                             .populate('classroomID')
                             .populate('classID');
-    //console.log(filters, docs);
+    // console.log(filters, docs);
     return docs;
 }
 

@@ -124,14 +124,14 @@ POST {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "Horario4"
+    "name": "Horario6"
 }
 
 ### View all existing courses
 
 GET {{host}}/api/Course
 
-
+  
 ### Filter courses by class --- Not working as intended
 
 GET {{host}}/api/Course?classID=662c0c66d35471bce3f86731
@@ -156,13 +156,13 @@ PUT {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "Horario4",
+    "name": "Horario6",
     "_id": "663028a7b21b67819975632a"
 }
 
 ### Get user schedule
 
-GET {{host}}/api/Schedule?name=Horario4
+GET {{host}}/api/Schedule?name=Horario5
 
 ### Remove a course from the users schedule
 
