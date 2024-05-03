@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const {User} = require('../db/User')
 const {Class} = require('../db/Class')
+const {Schedule} = require('../db/Schedule')
 const auth = require('../middlewares/auth')
 const {nanoid} = require('nanoid')
 const fs = require('fs')
@@ -44,20 +45,37 @@ router.get('/classes',auth.validateCookie, async (req, res)=>{
     let email = req.email
     let user = await User.findUser(email)
     let user2 = await User.findOne({email})
-    let notIn = await Class.findCLasesNotIn(user2)
-
-    //console.log(user)
+    let notIn = await Class.findCLasesNotInUser(user2)
+    let UserID = req.email;
+    let schedules = await Schedule.find({UserID})//.populate('Courses')
+    let clasesInscribed = []
     if (!user){
         res.status(404).send({error: "User not found"})
         return;
     }
-    res.send({user,notIn})
+    let Available = user.Available;
+    // if(schedules){
+    //     for (let index = 0; index < schedules.length; index++) {
+    //         for (let i = 0; i < schedules[index].Courses.length; i++) {
+    //             clasesInscribed.push(schedules[index].Courses[i].classID)
+    //         }
+    //     }
+    //     let Available = Available.filter(u=> !clasesInscribed.includes(u._id))
+    //     clasesInscribed = clasesInscribed.map(async (u) =>  await Class.findById(u))
+    // }
+    
+
+    console.log(schedules)
+    //console.log(user)
+    
+    res.send({"Completed":user.Completed,Available,notIn,clasesInscribed})
 })
 
 router.get('/getme',auth.validateCookie, async (req, res)=>{
     console.log(req.params.id);
     let email = req.email
-    let user = await User.findUser(email)
+    let proj = {name:1, email:1, userType:1, _id:0} ;
+    let user = await User.findOne({email},proj)
     console.log(user)
     if (!user){
         res.status(404).send({error: "User not found"})
@@ -203,12 +221,22 @@ router.put('/addAvailableClass',auth.validateCookie,async (req,res)=>{
             //console.log(id)
             //console.log(user)
             //console.log(user.Completed.includes(id))
+            
+
+            //abandonCourse
             if(user.Completed.includes(id)){
                 res.status(404).send({error: 'Already inscribed'})
                 return
             }else{
                 if((user.Available.includes(id))){
                     console.log( user.Available.includes(id))
+                    let schedules = await Schedule.find({"UserID":email})//.populate('Courses')                    
+                    // for (let index = 0; index < schedules.length; index++) {
+                    //     if(schedules[i].Courses.includes( u => u.classID == ClassID)) {
+                    //         req.name=schedules[i].name;
+                    //         await abandonCourse(req,id)
+                    //     }
+                    // }
                     user.Completed.push(id)
                     user.Available = await Class.filterClassesToHaveAllRequirements(user.Completed,user.Curiculum)
                     

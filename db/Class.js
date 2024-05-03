@@ -87,7 +87,7 @@ ClassSchema.statics.filterClassesToHaveAllRequirements= async (cursadas,Curiculu
     }
 }
 
-ClassSchema.statics.findCLasesNotIn = async(user)=>{
+ClassSchema.statics.findCLasesNotInUser = async(user)=>{
     let doing =[]
     console.log(user)
     doing = doing.concat(user.Completed, user.Passing,user.Available);

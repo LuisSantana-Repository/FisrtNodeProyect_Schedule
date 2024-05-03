@@ -6,7 +6,7 @@ async function getMe(){
 
         })
         let data = await request.json()
-        let type
+        let type = ""
         switch (data.userType) {
             case 1:
                 type='Profesor'
@@ -20,6 +20,7 @@ async function getMe(){
             default:
                 break;
         }
+        console.log(data)
         let html = /*html*/`
             <div class="container">
         <div class="main-body" >

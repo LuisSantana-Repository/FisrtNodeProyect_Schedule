@@ -2,10 +2,6 @@ const {User} = require('../db/User')
 const jwt = require('jsonwebtoken')
 
 
-function validateHeader(req,res, next){
-    next()
-}
-
 function validateAdmin(req, res,next){
     let email = req.email;
     let user = User.findOne({email})
@@ -29,28 +25,6 @@ async function requiredAdmin(req,res, next){
     res.status(401).send({error: 'You are not admin'})
 
 } 
-
-
-function validateToken(req, res, next){
-    let token = req.get('x-token')
-
-    if(!token){
-        res.status(401).send({error: "token is missing"})
-        return;
-    }
-
-    jwt.verify(token, process.env.TOKEN_KEY, (err, decoded)=>{
-        if(err){
-            res.status(401).send({error: err.message})
-            return
-        }
-
-        req.email= decoded.email;
-        req._id = decoded._id;
-        next()
-    })
-
-}
 
 function validateCookie(req,res,next){
     let token = req.cookies.access_token
@@ -83,5 +57,5 @@ async function requireProfessor(req, res, next){
     res.status(401).send({error: 'Access Unauthorized'})
 } 
 
-module.exports = {validateToken, validateHeader, validateAdmin, requiredAdmin, validateCookie, requireProfessor}
+module.exports = {validateAdmin, requiredAdmin, validateCookie, requireProfessor}
 

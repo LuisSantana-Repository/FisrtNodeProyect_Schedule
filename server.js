@@ -30,7 +30,7 @@ app.get('/', (req,res)=>{
 })
 
 //app.use('/api/User', logger,auth.validateToken,  UsertRoutes )
-app.use('/api/User',  UserRoutes )
+app.use('/api/User',  logger,UserRoutes )
 app.use('/api/login', logger, authRoute )
 app.use('/api/Class', logger, ClassRoutes )
 app.use('/api/Course', logger, CourseRoutes )

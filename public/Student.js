@@ -22,7 +22,7 @@ function PassingHTML(u){
     let html = /*html*/`
         <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-warning">
                 ${u.name}
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="Class 2 In Progress" onclick="updatePassing('${u._id}')">
+                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="Class 2 In Progress" onclick="updateAvailable('${u._id}')">
                     </li>
     `
     console.log(html)
@@ -40,23 +40,6 @@ function AvailableHTML(u){
 
 }
 
-
-//make soo that it is elimintated from schedule and passed from Passing to Acepted
-async function updatePassing(u){
-    let request = await fetch('api/User/completedPassingClass',{
-        method:"PUT",
-        headers:{
-            "Content-Type": "application/json"
-        },
-        body:JSON.stringify({
-            "ClassID":u
-        })
-    }
-    )
-    makechecks()
-    
-
-}
 async function updateAvailable(u){
     let request = await fetch('api/User/addAvailableClass',{
         method:"PUT",
@@ -84,11 +67,11 @@ async function makechecks(){
     })
     let data = await request.json()
     
-    let html = data.user.Completed.map(u => completedHTML(u)).join('')
+    let html = data.Completed.map(u => completedHTML(u)).join('')
     console.log(html)
-    html += data.user.Passing.map(u => PassingHTML(u)).join('')
+    html += data.clasesInscribed.map(u => PassingHTML(u)).join('')
     console.log(html)
-    html += data.user.Available.map(u => AvailableHTML(u)).join('')
+    html += data.Available.map(u => AvailableHTML(u)).join('')
     html += data.notIn.map(u=> notAble(u)).join('')
     document.getElementById("List").innerHTML= html;
 
