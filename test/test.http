@@ -124,14 +124,15 @@ POST {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "Horario2"
+    "name": "Horario4"
 }
 
 ### View all existing courses
 
 GET {{host}}/api/Course
 
-### Filter courses by class
+
+### Filter courses by class --- Not working as intended
 
 GET {{host}}/api/Course?classID=662c0c66d35471bce3f86731
 
@@ -144,24 +145,24 @@ GET {{host}}/api/Course?professorName=Paco Memo
 
 GET {{host}}/api/Schedule
 
-### Obtain courses that the user can add to their shchedule
+### Obtain courses that the user can add to their shchedule --- Not working as intended
 
 GET {{host}}/api/Schedule?name=Horario2&classID=662c0c66d35471bce3f86731
 
 
-### Add a course to the user -------- (Colitions bug)
+### Add a course to the user
 
 PUT {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "Horario2",
-    "courseID": "TEST3463"
+    "name": "Horario4",
+    "_id": "663028a7b21b67819975632a"
 }
 
 ### Get user schedule
 
-GET {{host}}/api/Schedule?name=Horario2
+GET {{host}}/api/Schedule?name=Horario4
 
 ### Remove a course from the users schedule
 
@@ -169,8 +170,8 @@ DELETE {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "Horario2",
-    "courseID": "TEST3463"
+    "name": "Horario4",
+    "_id":  "663028a7b21b67819975632a"
 }
 
 ### Remove a schedule from the user
@@ -179,7 +180,7 @@ DELETE {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "Horario1"
+    "name": "Horario4"
 }
 
 ### Log out (delete cookie)
@@ -208,3 +209,15 @@ Content-Type: application/json
 
 ### 
 GET {{host}}/api/Class
+
+###
+
+POST {{host}}/api/Classroom
+
+###
+
+DELETE  {{host}}/api/Classroom
+
+###
+
+GET {{host}}/api/Classroom

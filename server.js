@@ -4,6 +4,7 @@ const authRoute = require('./routes/authRoutes')
 const ClassRoutes = require('./routes/ClassRoutes')
 const CourseRoutes = require('./routes/CourseRoutes')
 const ScheduleRoutes = require('./routes/ScheduleRoutes')
+const ClassroomRoutes = require('./routes/ClassroomRoutes')
 const path = require('path')
 const app = express();
 const port = process.env.PORT || 3001;
@@ -35,6 +36,7 @@ app.use('/api/login', logger, authRoute )
 app.use('/api/Class', logger, ClassRoutes )
 app.use('/api/Course', logger, CourseRoutes )
 app.use('/api/Schedule', logger, ScheduleRoutes )
+app.use('/api/Classroom', logger, ClassroomRoutes )
 
 //app.use('/api/users', logger,  userRoutes )
 //app.use('/api/images', logger,  imageRoutes )

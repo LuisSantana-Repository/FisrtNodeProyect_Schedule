@@ -23,7 +23,7 @@ async function findColition(course, userSchedule){
     //     if (!available) break; 
     //     userSchedule.Courses.forEach( async (c)=> {
     //         if (!available) return; 
-    //         let currentCourse = await Course.findCourse({courseID: c}); 
+    //         let currentCourse = await Course.findCourse({_id: c}); 
     //         for (let j = 0; j<currentCourse.days.length; j++){ 
     //             if (course.days[i]==currentCourse.days[j]) {
     //                 if (course.time[i]==currentCourse.time[j]) {
@@ -39,7 +39,7 @@ async function findColition(course, userSchedule){
         if (!available) break; 
         for (let c of userSchedule.Courses) {
             if (!available) break;  
-            let currentCourse = await Course.findCourse({ courseID: c });
+            let currentCourse = await Course.findCourse({ _id: c });
             for (let j = 0; j < currentCourse.days.length; j++) {
                 if (course.days[i] == currentCourse.days[j] && course.time[i] == currentCourse.time[j]) {
                     console.log("Collision on:", course.days[i], course.time[i]);
@@ -54,16 +54,16 @@ async function findColition(course, userSchedule){
 }
 
 router.put('/', auth.validateCookie, async (req, res) =>{
-    let {name, courseID} = req.body;
-    if (name && courseID) {
+    let {name, _id} = req.body;
+    if (name && _id) {
         req.name = name;
         let userSchedule = await Schedule.findSchedule(req);
         if (userSchedule) {
-            if (userSchedule.Courses.find((c)=>c==courseID)){
+            if (userSchedule.Courses.find((c)=>c._id==_id)){
                 res.status(400).send({error:"Course is already on the schedule"});
                 return;
             }
-            let course = await Course.findCourse({courseID});
+            let course = await Course.findCourse({_id});
             if (course){
                 let max = 24; // TODO: find course.classroomID capacity
                 if (course.studentCount<max){
@@ -73,9 +73,9 @@ router.put('/', auth.validateCookie, async (req, res) =>{
                     else {
                         let available = await findColition(course, userSchedule);
                         if (available) { 
-                            let resp = await Schedule.pushCourse(req, courseID);
+                            let resp = await Schedule.pushCourse(req, _id);
                             res.status(200).send(resp);
-                            //Course.addOneStudent(courseID); // TODO: Completar metodo en Course.js
+                            //Course.addOneStudent(_id); // TODO: Completar metodo en Course.js
                         }
                         else res.status(400).send({error:"Course does not fit your schedule"});
                     }
@@ -103,7 +103,7 @@ router.get('/', auth.validateCookie, async (req, res) =>{
         let availableCourses = [];
         for (let course of  foundCourses){
             course.available = await findColition(course, userSchedule);
-            if (course.available) availableCourses.push(course.courseID);
+            if (course.available) availableCourses.push(course._id);
         }
         res.status(200).send(availableCourses);
         return;
@@ -116,14 +116,14 @@ router.get('/', auth.validateCookie, async (req, res) =>{
 })
 
 router.delete('/', auth.validateCookie, async (req, res) =>{
-    let {name, courseID} = req.body;
+    let {name, _id} = req.body;
     if (name) {
         req.name = name;
         let userSchedule = await Schedule.findSchedule(req);
         if (userSchedule){
-            if (courseID){
-                Schedule.abandonCourse(req, courseID);
-                //Course.removeOneStudent(courseID); // TODO: Completar metodo en Course.js
+            if (_id){
+                Schedule.abandonCourse(req, _id);
+                //Course.removeOneStudent(_id); // TODO: Completar metodo en Course.js
                 res.status(200).send("Course Abandoned");
             }
             else {
