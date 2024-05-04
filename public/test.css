@@ -1,0 +1,85 @@
+.navbar {
+    background-color: rgba(67, 96, 181, 0.8); /* Greenish semi-transparent background */
+    transition: background-color 0.4s; /* Smooth transition for background color */
+}
+
+.navbar:hover {
+    background-color: rgb(67, 101, 181); /* Solid green color on hover */
+}
+
+
+body {
+    font-family: 'Arial', sans-serif; /* Modern, readable font */
+}
+
+.bi {
+    font-size: 1.5rem; /* Larger icons for better visibility */
+}
+
+main {
+    background-color: #f0f0f0; /* Light grey background */
+    padding: 20px; /* Adds padding around the content within the main element */
+    margin: auto; /* Centers the main content if needed */
+    width: 90%; /* Adjusts the width to ensure it does not span the full width of the viewport */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
+}
+.container {
+    display: flex; /* Ensures flexbox layout */
+    align-items: center; /* Aligns children (icon and text div) vertically in the center */
+    gap: 20px; /* Provides space between the icon and the text */
+}
+
+.card {
+    background-color: #c9c9c9; /* Regular card color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border-radius: 10px;
+    margin: 20px; /* Adds space around each card */
+    overflow: hidden; /* Keeps any scaled content within the boundaries of the card */
+}
+
+.card:hover {
+    transform: scale(1.03); /* Slightly enlarges the card */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Deeper shadow for a 3D effect */
+}
+
+
+
+
+.modal-content {
+    border-radius: 15px; /* Rounded corners for modals */
+}
+
+.modal-header, .modal-body, .modal-footer {
+    padding: 20px; /* More padding for a better layout */
+}
+
+footer {
+    background-color: #343a40; /* Dark background for the footer */
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+footer a {
+    color: #f8f9fa;
+    text-decoration: none;
+}
+
+body {
+    background-color: #f4f4f4; /* Light grey background for the whole page */
+    color: #333; /* Dark grey text for better readability */
+}
+
+a {
+    color: inherit; 
+    text-decoration: none; 
+    background-color: transparent;
+}
+
+a:hover, a:focus, a:active {
+    color: inherit;
+    text-decoration: none; 
+    background-color: transparent; 
+    outline: none;
+}

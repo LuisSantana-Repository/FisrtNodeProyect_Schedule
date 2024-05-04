@@ -41,31 +41,57 @@ router.get('/', auth.validateCookie, auth.requiredAdmin, async (req,res)=>{
 
 
 router.get('/classes',auth.validateCookie, async (req, res)=>{
-    console.log(req.params.id);
+    //console.log(req.params.id);
     let email = req.email
     let user = await User.findUser(email)
     let user2 = await User.findOne({email})
     let notIn = await Class.findCLasesNotInUser(user2)
     let UserID = req.email;
-    let schedules = await Schedule.find({UserID})//.populate('Courses')
+    let schedules = await Schedule.find({UserID}).populate({path: "Courses", 
+                                                    populate: [
+                                                        {
+                                                            path: "classID",
+                                                            model: "Class"
+                                                        }
+                                                    ]});
+    //console.log(schedules)
     let clasesInscribed = []
     if (!user){
         res.status(404).send({error: "User not found"})
         return;
     }
     let Available = user.Available;
-    // if(schedules){
-    //     for (let index = 0; index < schedules.length; index++) {
-    //         for (let i = 0; i < schedules[index].Courses.length; i++) {
-    //             clasesInscribed.push(schedules[index].Courses[i].classID)
-    //         }
-    //     }
-    //     let Available = Available.filter(u=> !clasesInscribed.includes(u._id))
-    //     clasesInscribed = clasesInscribed.map(async (u) =>  await Class.findById(u))
-    // }
+    if(schedules){
+        //console.log(schedules.length)
+        for (let index = 0; index < schedules.length; index++) {
+            //console.log(schedules[index])
+            let temp = schedules[index]
+            if(temp.Courses){
+                for (let i = 0; i < temp.Courses.length; i++) {
+                    clasesInscribed.push(schedules[index].Courses[i].classID)
+                }
+            }
+        }
+        //console.log("Before Filter:", clasesInscribed)
+        clasesInscribed = clasesInscribed.filter((item, index) => clasesInscribed.indexOf(item) == index);
+        //console.log("After Filter:", clasesInscribed)
+        //console.log(Available)
+
+        Available =Available.filter(u => {
+            // Check if any element in clasesInscribed has the same _id as u
+            return !clasesInscribed.some(o => {
+                //console.log(u._id, o._id, o._id.equals(u._id));
+                return o._id.equals(u._id);
+            });
+        });
+
+        res.send({"Completed":user.Completed,Available,notIn,clasesInscribed})
+        return
+        //console.log(clasesInscribed);
+    }
     
 
-    console.log(schedules)
+    //console.log(schedules)
     //console.log(user)
     
     res.send({"Completed":user.Completed,Available,notIn,clasesInscribed})
@@ -229,19 +255,40 @@ router.put('/addAvailableClass',auth.validateCookie,async (req,res)=>{
                 return
             }else{
                 if((user.Available.includes(id))){
-                    console.log( user.Available.includes(id))
-                    let schedules = await Schedule.find({"UserID":email})//.populate('Courses')                    
-                    // for (let index = 0; index < schedules.length; index++) {
-                    //     if(schedules[i].Courses.includes( u => u.classID == ClassID)) {
-                    //         req.name=schedules[i].name;
-                    //         await abandonCourse(req,id)
-                    //     }
-                    // }
+                    //console.log( user.Available.includes(id))
+                    let schedules = await Schedule.find({"UserID":email}).populate({path: "Courses", 
+                                            populate: [
+                                                {
+                                                    path: "classID",
+                                                    model: "Class"
+                                                }
+                                            ]});      
+                    if(schedules){
+                            for (let i = 0; i < schedules.length; i++) {
+                                if(schedules[i].Courses){
+                                    // schedules[i].Courses.some( u => {
+                                    //     console.log(u.classID._id,id,u.classID._id.equals(id))
+                                    //     return u.classID._id.equals(id)
+                                    // })
+                                    let ScheduleID
+                                    if(schedules[i].Courses.some( u => {
+                                        ScheduleID= u.id
+                                        return u.classID._id.equals(id)
+
+                                    })) {
+                                        console.log(schedules[i])
+                                        req.name=schedules[i].name;
+                                        console.log(await Schedule.abandonCourse(req,ScheduleID))
+                                    }
+                                }
+                        }
+                    }
+                    
                     user.Completed.push(id)
                     user.Available = await Class.filterClassesToHaveAllRequirements(user.Completed,user.Curiculum)
                     
                 }else{
-                    console.log(user)
+                    //console.log(user)
                     res.status(404).send({error: 'You shoudnt be able to complete this class'})
                     return
                 }
@@ -256,7 +303,6 @@ router.put('/addAvailableClass',auth.validateCookie,async (req,res)=>{
     delete user.password;
     //console.log(user)
     let updatedUser = await User.updateUser(user.email, user);
-    //fs.writeFileSync('./data/usersdata.json', JSON.stringify(users) )
     res.send(updatedUser)
 }
 )

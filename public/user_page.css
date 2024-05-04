@@ -1,10 +1,12 @@
-body{
-    background-image: url('https://iteso.blob.core.windows.net/images/f3.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100%;
-    font-family: 'Numans', sans-serif;   
+.navbar {
+    background-color: rgba(67, 96, 181, 0.921); 
+    transition: background-color 0.4s; 
 }
+
+.navbar:hover {
+    background-color: rgb(67, 78, 181);
+}
+
 .main-body {
     padding: 15px;
 }
@@ -13,16 +15,18 @@ body{
 }
 
 .card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 0 solid rgba(0,0,0,.125);
-    border-radius: .25rem;
+    width: 80%; /* Sets the width of the card to 80% of its container */
+    height: 300px; /* Sets a fixed height */
+    margin: 20px auto; /* Centers the card horizontally and adds vertical spacing */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    border-radius: .25rem; /* Maintains rounded corners */
+    display: flex; /* Allows flexible layouts inside the card */
+    align-items: center; /* Centers items vertically */
+    justify-content: center; /* Centers items horizontally */
+    padding: 20px; /* Adds padding inside the card */
+    background-color: #fff; /* Ensures the background is white */
 }
+
 
 .card-body {
     flex: 1 1 auto;
@@ -52,3 +56,41 @@ body{
 .shadow-none {
     box-shadow: none!important;
 }   
+
+
+a, a:hover, a:focus, a:active {
+    color: inherit; /* Inherits color from the parent element */
+    text-decoration: none; /* No underline */
+    background-color: transparent; /* No background change */
+    outline: none; /* No focus outline */
+}
+
+html, body {
+    height: 100%; /* Ensures the full height of the viewport is used */
+    margin: 0; /* Resets margin to prevent unexpected spaces */
+    padding: 0; /* Removes default padding */
+    overflow-x: hidden; /* Prevents horizontal scroll */
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* Stacks content vertically */
+    background-image: url('https://iteso.blob.core.windows.net/images/f3.jpg'); /* Sets background image */
+    background-size: cover; /* Ensures the background covers the entire area */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-attachment: fixed; /* Keeps the background fixed during scrolling */
+}
+
+
+main {
+    flex: 1; /* Allows main content to expand and fill available space */
+}
+
+footer {
+    background-color: #022145; /* Dark blue background */
+    color: white; /* White text color */
+    text-align: center; /* Center-aligns the text */
+    padding: 10px 20px; /* Adds padding for spacing */
+    border-top: 3px solid #0d6efd; /* Thematic blue top border */
+}

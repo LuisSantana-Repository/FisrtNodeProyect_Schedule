@@ -1,22 +1,39 @@
-.iteso-logo{
-    width: 200px;
+.iteso-logo {
+  max-width: 100%;  /* Ensures the logo is never larger than its container */
+  height: auto;     /* Keeps the aspect ratio intact */
+  width: 200px;     /* Default width, but adaptable to container size */
 }
+
+
 .card {
-    /* Add shadows to create the "card" effect */
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-  }
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s;
+  border-radius: 10px; /* Rounded corners for a softer look */
+}
+
+.card:hover {
+  transform: scale(1.03); /* Slightly enlarges the card on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Deeper shadow for 3D effect */
+  opacity: 0.9; /* Slight transparency effect */
+}
+
   
-  /* On mouse-over, add a deeper shadow */
-  .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
-  
-  /* Add some padding inside the card container */
-  .container {
-    padding: 2px 16px;
-  }
-  .modal table, .modal th, .modal td {
-    border: 1px solid black;
-  border-collapse: collapse;
-  }
+.container {
+  padding: 16px; /* More generous padding for better readability */
+}
+
+.modal table {
+  width: 100%; /* Ensures the table uses the full width of the modal */
+  border-collapse: collapse; /* Ensures borders between cells are merged */
+}
+
+.modal th, .modal td {
+  border: 1px solid #ccc; /* Lighter border color for less visual weight */
+  padding: 8px; /* More padding for table cells */
+  text-align: left; /* Aligns text to the left */
+}
+
+.modal tr:nth-child(even) {
+  background-color: #f2f2f2; /* Zebra striping for rows */
+}
+

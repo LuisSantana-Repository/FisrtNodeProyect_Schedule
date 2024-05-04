@@ -89,7 +89,7 @@ ClassSchema.statics.filterClassesToHaveAllRequirements= async (cursadas,Curiculu
 
 ClassSchema.statics.findCLasesNotInUser = async(user)=>{
     let doing =[]
-    console.log(user)
+    //console.log(user)
     doing = doing.concat(user.Completed, user.Passing,user.Available);
     let query = {
         _id: { $nin: doing }  // Exclude classes based on the combined list
