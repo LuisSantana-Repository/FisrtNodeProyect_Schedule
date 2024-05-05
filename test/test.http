@@ -124,7 +124,7 @@ POST {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "Horario6"
+    "name": "Horario5"
 }
 
 ### View all existing courses

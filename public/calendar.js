@@ -1,14 +1,19 @@
 /* What to do in here:
-- Create Schedule button
+- Ability to browse user Schedules and display them: 
+    - Include a create Schedule button:
 - Add Course:
-    - Finding courses depending on search:
-        - Disabling button based on schedule compatibility, requirements or already having the class
-- Ability to browse user Schedules and display them */
+    - Finding courses depending on search: Completed
+        - Disabling button based on schedule compatibility, requirements or already having the class: Almost complete
+            - Obtain current schedule: 
+*/
 
 
-async function findCourses(User="", schedule="", classname=""){
+async function findCourses(){
+    let schedule = currentSchedule();
+    let classname = sendName();
     let classRoute = 'http://localhost:3001/api/Class';
     if (classname) classRoute+= '?name=' + classname;
+    // console.log(classRoute);
     let request = await fetch(classRoute, {
         method: 'GET',
         });
@@ -57,7 +62,10 @@ async function findCourses(User="", schedule="", classname=""){
                         "_id": course._id
                     })});
                 let fits = await request.json();
-                if (fits.error) available = "disabled";
+                if (fits.error) {
+                    available = "disabled";
+                    console.log("Course disabled because", fits);
+                }
                 html += /*html*/ `<ul
                 class="list-group list-group-horizontal"
                 >
@@ -73,7 +81,7 @@ async function findCourses(User="", schedule="", classname=""){
                         name=""
                         id=""
                         class="btn btn-success"
-                        onclick="addCourse('${schedule, course._id}')"
+                        onclick="addCourse('${schedule}', '${course._id}')"
                         ${available}
                     >
                         Inscribe
@@ -87,13 +95,14 @@ async function findCourses(User="", schedule="", classname=""){
             </div>
             </div>
             </div>`
-        }
+        } 
     // console.log(html);
     render(html, 'searchResults');
 }
 
 async function addCourse(schedule, courseID){
-    await fetch('http://localhost:3001/api/Schedule', {
+    console.log("adding course")
+    let res = await fetch('http://localhost:3001/api/Schedule', {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json"
@@ -102,10 +111,25 @@ async function addCourse(schedule, courseID){
             "name": schedule,
             "_id": courseID
         })});
+    console.log(await res.json())
+}
+
+function sendName(){
+    // event.preventDefault();
+    let classname = document.querySelector('#searchBar').value;
+    // sessionStorage.setItem("classname", JSON.stringify(classname));
+    // console.log(classname);
+    return classname;
+}
+
+function currentSchedule(){
+    // TODO: Somehow, obtain the schedule the user wants to see/update
+    // let schedule = document.querySelector('#searchBar').value;
+    // return schedule;
 }
 
 function render(html, elementID){
     document.querySelector(`#${elementID}`).innerHTML = html;
 }
 
-findCourses() 
+findCourses();
