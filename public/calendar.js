@@ -9,7 +9,7 @@
     - Finding courses depending on search: Completed
         - Disabling button based on schedule compatibility, requirements or already having the class: Completed
             - Obtain current schedule: Completed
-    TODO: - Fix-Issue, the server crashes after adding a course: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client, after restarting the server, the course was properly added to the schedule
+- Fixed-Issue, the server crashes after adding a course: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client, after restarting the server, the course was properly added to the schedule: Solved, it was a backend error
 */
 
 
@@ -71,7 +71,7 @@ async function findCourses(){
                 let fits = await request.json();
                 if (fits.error) {
                     available = "disabled";
-                    console.log("Course disabled because", fits);
+                    console.log("Course disabled because: ", fits.error);
                 }
                 html += /*html*/ `<ul
                 class="list-group list-group-horizontal"
@@ -118,7 +118,13 @@ async function addCourse(schedule, courseID){
             "name": schedule,
             "_id": courseID
         })});
-    console.log(await res.json())
+    // console.log(await res.json())
+    findCourses();
+    // swal
+    swal({
+        title: 'Course successfully added to your schedule',
+        icon: 'success'
+    });
 }
 
 function sendName(){
@@ -141,15 +147,23 @@ async function scheduleList(){
     // console.log(userSchedules);
     let html = ""
     for (let schedule of userSchedules){
-        html += /*html*/ `<a  href="#" class="mt-1" onclick="setSchedule('${schedule}')"><li class="list-group-item">${schedule}</li></a>`
+        html += /*html*/ `<a  href="#" class="mt-1" onclick="setSchedule('${schedule}')" data-bs-toggle="collapse"
+        data-bs-target="#flush-collapseOne"><li class="list-group-item">${schedule}</li></a>`
     }
     render(html, 'scheduleList')
 }
 
 function setSchedule(schedule=""){
     sessionStorage.setItem("currentSchedule", JSON.stringify(schedule));
-    if (schedule) render("Current schedule: " + schedule, "scheduleName");
-    else render("No schedule selected", "scheduleName");
+    if (schedule) {
+        render("Current schedule: " + schedule, "scheduleName");
+        render("Add course to " + schedule, "addCourseModalTitle");
+    }
+    else {
+        render("No schedule selected", "scheduleName"); 
+        render("Course list: If you wish to add a course to your schedule, make shure to select your schedule first.", "addCourseModalTitle");
+    }
+    findCourses();
     // show current schedule
 }
 
@@ -172,18 +186,32 @@ async function createSchedule(){
     }
 }
 
-async function deleteSchedule(){
+function deleteSchedule(){
     let schedule = currentSchedule();
-    await fetch('http://localhost:3001/api/Schedule', {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "name": schedule,
-    })});
-    scheduleList();
-    setSchedule();
+    if (schedule){
+        swal({
+            title: "Are you sure you want to delete " + schedule ,
+            icon: "warning",
+            buttons: ["Cancel", "Yes"],
+        }).then(async c=>{
+            if (c) {
+                swal({
+                    title: schedule + " has been deleted",
+                    icon: "success",
+                })
+                await fetch('http://localhost:3001/api/Schedule', {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "name": schedule,
+                })});
+                scheduleList();
+                setSchedule();
+            }
+        })
+    }
 }
 
 function render(html, elementID){
@@ -191,4 +219,4 @@ function render(html, elementID){
 }
 
 scheduleList();
-setSchedule()
+setSchedule();
