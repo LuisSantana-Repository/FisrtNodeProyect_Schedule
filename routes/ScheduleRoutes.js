@@ -86,8 +86,7 @@ router.put('/', auth.validateCookie, async (req, res) =>{
         } 
         else res.status(400).send({error:"Schedule not found"});
     }
-    else console.log(name, _id) 
-    res.status(400).send({error:"Missing Information"});
+    else res.status(400).send({error:"Missing Information"});
 })
 
 router.put('/available', auth.validateCookie, async (req, res) =>{
