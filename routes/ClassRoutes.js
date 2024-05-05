@@ -6,7 +6,7 @@ const fs = require('fs')
 const { error } = require("console")
 
 
-router.get('/', auth.validateCookie, auth.requiredAdmin, async (req,res)=>{
+router.get('/', auth.validateCookie, async (req,res)=>{
     let {name,pageNumber} = req.query;
     let filters= {}
     if(name){
