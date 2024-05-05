@@ -221,3 +221,8 @@ DELETE  {{host}}/api/Classroom
 ###
 
 GET {{host}}/api/Classroom
+
+
+###
+
+GET {{host}}/api/Class?name=a
