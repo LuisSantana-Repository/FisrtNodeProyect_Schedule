@@ -89,6 +89,42 @@ router.put('/', auth.validateCookie, async (req, res) =>{
     else res.status(400).send({error:"Missing Information"});
 })
 
+router.put('/available', auth.validateCookie, async (req, res) =>{
+    let {name, _id} = req.body;
+    if (name && _id) {
+        req.name = name;
+        let userSchedule = await Schedule.findSchedule(req);
+        if (userSchedule) {
+            if (userSchedule.Courses.find((c)=>c._id==_id)){
+                res.status(400).send({error:"Course is already on the schedule"});
+                return;
+            }
+            let course = await Course.findCourse({_id});
+            if (course){
+                let max = 24; // TODO: find course.classroomID capacity
+                if (course.studentCount<max){
+                    let user = await User.findUser(req.email);
+                    if (user.Completed.find((c)=> c==course.classID)) res.status(400).send({error:"You have already coursed that class"});
+                    else if (user.Passing.find((c)=> c==course.classID)) res.status(400).send({error:"You are already coursing that class"});
+                    else {
+                        let available = await findColition(course, userSchedule);
+                        if (available) { 
+                            let resp = true;
+                            res.status(200).send(resp);
+                            //Course.addOneStudent(_id); // TODO: Completar metodo en Course.js
+                        }
+                        else res.status(400).send({error:"Course does not fit your schedule"});
+                    }
+                }
+                else res.status(400).send({error:"Course is full"});
+            }
+            else res.status(400).send({error:"Course not found"});
+        } 
+        else res.status(400).send({error:"Schedule not found"});
+    }
+    else res.status(400).send({error:"Missing Information"});
+})
+
 router.get('/', auth.validateCookie, async (req, res) =>{
     let docs = await Schedule.findSchedules(req);
     if (!docs) {

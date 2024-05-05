@@ -225,4 +225,4 @@ GET {{host}}/api/Classroom
 
 ###
 
-GET {{host}}/api/Class
+GET {{host}}/api/Class?name=a
