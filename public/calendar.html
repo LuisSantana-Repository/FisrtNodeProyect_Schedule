@@ -357,9 +357,9 @@
 type="button"
 class="btn btn-warning btn-lg"
 data-bs-toggle="modal"
-data-bs-target="#AddClasses"
+data-bs-target="#AddCourses"
 >
-Add Class
+Add Course
 </button>
             </div>
 
@@ -591,7 +591,7 @@ Add Class
 <!-- Modal -->
 <div
     class="modal fade"
-    id="AddClasses"
+    id="AddCourses"
     tabindex="-1"
     role="dialog"
     aria-labelledby="modalTitleId"
@@ -601,7 +601,7 @@ Add Class
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitleId">
-                    Classes
+                    Course
                 </h5>
                 <button
                     type="button"
@@ -619,6 +619,7 @@ Add Class
                             placeholder=""
                             aria-label="Button"
                             aria-describedby=""
+                            id = "searchBar"
                         />
                         <button class="btn btn-outline-secondary" type="button" id="" onclick="findCourses();">
                             Search
