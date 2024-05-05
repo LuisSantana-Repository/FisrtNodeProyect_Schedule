@@ -10,7 +10,7 @@ router.post('/', auth.validateCookie, async (req, res) =>{
         req.name = name;
         if (await Schedule.findSchedule(req)==null) {
             await Schedule.createSchedule(req);
-            res.status(201).send("Schedule created");
+            res.status(201).send({message: "Schedule created"});
         }
         else res.status(400).send({error:"Schedule already exists"});
     }
@@ -161,14 +161,14 @@ router.delete('/', auth.validateCookie, async (req, res) =>{
             if (_id){
                 Schedule.abandonCourse(req, _id);
                 //Course.removeOneStudent(_id); // TODO: Completar metodo en Course.js
-                res.status(200).send("Course Abandoned");
+                res.status(200).send({message: "Course Abandoned"});
             }
             else {
-                userSchedule.Courses.forEach((c)=>{
+                // userSchedule.Courses.forEach((c)=>{
                     //Course.removeOneStudent(c); // TODO: Completar metodo en Course.js
-                })
+                // })
                 Schedule.deleteSchedule(req);
-                res.status(200).send("Schedule Deleted");
+                res.status(200).send({message: "Schedule Deleted"});
             }
         }
         else res.status(400).send({error:"Schedule not found"});

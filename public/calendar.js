@@ -1,18 +1,21 @@
 /* What to do in here:
 - Schedules: 
     - Ability to browse user Schedules: Complete
-    - Display current schedule on the calendar: Pending
-    - Create Schedule button: Pending
+    TODO: - Display current schedule on the calendar: Pending
+            - Each block displays course information and allows to leave the course: Pending
+    - Create Schedule button: Completed
+    - Delete Schedule button: Completed
 - Add Course: Almost Complete
     - Finding courses depending on search: Completed
-        - Disabling button based on schedule compatibility, requirements or already having the class: Complete
-            - Obtain current schedule: Complete
-    - Issue to solve, the server crashes after adding a course: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client, after restarting the server, the course was properly added to the schedule
+        - Disabling button based on schedule compatibility, requirements or already having the class: Completed
+            - Obtain current schedule: Completed
+    TODO: - Fix-Issue, the server crashes after adding a course: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client, after restarting the server, the course was properly added to the schedule
 */
 
 
 async function findCourses(){
     let schedule = currentSchedule();
+    if (schedule) render("Add course to " + schedule, "addCourseModalTitle");
     // console.log(schedule); 
     let classname = sendName();
     let classRoute = 'http://localhost:3001/api/Class';
@@ -105,7 +108,7 @@ async function findCourses(){
 }
 
 async function addCourse(schedule, courseID){
-    console.log("adding course")
+    // console.log("adding course")
     let res = await fetch('http://localhost:3001/api/Schedule', {
         method: 'PUT',
         headers: {
@@ -143,9 +146,44 @@ async function scheduleList(){
     render(html, 'scheduleList')
 }
 
-function setSchedule(schedule){
+function setSchedule(schedule=""){
     sessionStorage.setItem("currentSchedule", JSON.stringify(schedule));
+    if (schedule) render("Current schedule: " + schedule, "scheduleName");
+    else render("No schedule selected", "scheduleName");
     // show current schedule
+}
+
+async function createSchedule(){
+    let name = document.querySelector('#createScheduleBar').value;
+    let request = await fetch('http://localhost:3001/api/Schedule', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "name": name,
+    })});
+    let result = await request.json();
+    if (result.error) render(result.error, 'createScheduleResults');
+    else {
+        render('Schedule successfully created', 'createScheduleResults');
+        scheduleList();
+        setSchedule(name);
+    }
+}
+
+async function deleteSchedule(){
+    let schedule = currentSchedule();
+    await fetch('http://localhost:3001/api/Schedule', {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "name": schedule,
+    })});
+    scheduleList();
+    setSchedule();
 }
 
 function render(html, elementID){
@@ -153,3 +191,4 @@ function render(html, elementID){
 }
 
 scheduleList();
+setSchedule()

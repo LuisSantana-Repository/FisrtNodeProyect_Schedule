@@ -68,6 +68,10 @@
                 </div> -->
                 <div class="row">
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12"> 
+
+                    <h4> Schedule Tools:</h4>
+                    <h5 id="scheduleName" class="mt-3 mb-3"> </h5>
+
                     <div class="accordion accordion-flush" id="Poo">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingOne">
@@ -115,11 +119,20 @@
 
                     <button
                     type="button"
-                    class="btn btn-outline-primary btn-lg col-12 mt-3 mb-3"
+                    class="btn btn-outline-primary btn-lg col-12 mt-3"
                     data-bs-toggle="modal"
-                    data-bs-target="#AddCourses"
+                    data-bs-target="#createSchedule"
                     >
                     Create New Schedule
+                    </button>
+
+                    <button
+                    type="button"
+                    class="btn btn-outline-danger btn-lg col-12 mt-3 mb-3"
+                    data-bs-toggle="modal"
+                    onclick="deleteSchedule()"
+                    >
+                    Delete Current Schedule
                     </button>
                 </div>
                 <div class="table-responsive col-xl-10 col-lg-10 col-md-10 col-sm-12">
@@ -642,14 +655,14 @@
     id="AddCourses"
     tabindex="-1"
     role="dialog"
-    aria-labelledby="modalTitleId"
+    aria-labelledby="addCourseModalTitle"
     aria-hidden="true"
 >
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalTitleId">
-                    Course
+                <h5 class="modal-title" id="addCourseModalTitle">
+                    Course list: If you wish to add a course to your schedule, make shure to select your schedule first. 
                 </h5>
                 <button
                     type="button"
@@ -674,6 +687,58 @@
                         </button>
                     </div>
                     <div id="searchResults"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="modal fade"
+    id="createSchedule"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="addScheduleTitle"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addScheduleTitle">
+                    Create New Schedule
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="input-group mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder=""
+                            aria-label="Button"
+                            aria-describedby=""
+                            id = "createScheduleBar"
+                        />
+                        <button class="btn btn-outline-secondary" type="button" id="" onclick="createSchedule()">
+                            Create
+                        </button>
+                    </div>
+                    <div id="createScheduleResults"></div>
                 </div>
             </div>
             <div class="modal-footer">
