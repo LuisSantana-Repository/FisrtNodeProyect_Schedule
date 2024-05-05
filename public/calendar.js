@@ -1,15 +1,19 @@
 /* What to do in here:
-- Ability to browse user Schedules and display them: 
-    - Include a create Schedule button:
-- Add Course:
+- Schedules: 
+    - Ability to browse user Schedules: Complete
+    - Display current schedule on the calendar: Pending
+    - Create Schedule button: Pending
+- Add Course: Almost Complete
     - Finding courses depending on search: Completed
-        - Disabling button based on schedule compatibility, requirements or already having the class: Almost complete
-            - Obtain current schedule: 
+        - Disabling button based on schedule compatibility, requirements or already having the class: Complete
+            - Obtain current schedule: Complete
+    - Issue to solve, the server crashes after adding a course: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client, after restarting the server, the course was properly added to the schedule
 */
 
 
 async function findCourses(){
     let schedule = currentSchedule();
+    // console.log(schedule); 
     let classname = sendName();
     let classRoute = 'http://localhost:3001/api/Class';
     if (classname) classRoute+= '?name=' + classname;
@@ -123,13 +127,29 @@ function sendName(){
 }
 
 function currentSchedule(){
-    // TODO: Somehow, obtain the schedule the user wants to see/update
-    // let schedule = document.querySelector('#searchBar').value;
-    // return schedule;
+    return JSON.parse(sessionStorage.getItem('currentSchedule'));
+}
+
+async function scheduleList(){
+    let request = await fetch('http://localhost:3001/api/Schedule', {
+        method: 'GET',
+        });
+    let userSchedules = await request.json();
+    // console.log(userSchedules);
+    let html = ""
+    for (let schedule of userSchedules){
+        html += /*html*/ `<a  href="#" class="mt-1" onclick="setSchedule('${schedule}')"><li class="list-group-item">${schedule}</li></a>`
+    }
+    render(html, 'scheduleList')
+}
+
+function setSchedule(schedule){
+    sessionStorage.setItem("currentSchedule", JSON.stringify(schedule));
+    // show current schedule
 }
 
 function render(html, elementID){
     document.querySelector(`#${elementID}`).innerHTML = html;
 }
 
-findCourses();
+scheduleList();
