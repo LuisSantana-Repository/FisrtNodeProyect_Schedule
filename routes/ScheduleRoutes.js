@@ -59,21 +59,36 @@ router.put('/', auth.validateCookie, async (req, res) =>{
         req.name = name;
         let userSchedule = await Schedule.findSchedule(req);
         if (userSchedule) {
-            if (userSchedule.Courses.find((c)=>c._id==_id)){
+            if (userSchedule.Courses.find((c)=>c._id.equals(_id))){
                 res.status(400).send({error:"Course is already on the schedule"});
                 return;
             }
             let course = await Course.findCourse({_id});
             if (course){
+                if (userSchedule.Courses.find((c)=>c.classID._id.equals(course.classID._id))){
+                    res.status(400).send({error:"Class is already on the schedule"});
+                    return;
+                }
                 let max = 24; // TODO: find course.classroomID capacity
                 if (course.studentCount<max){
                     let user = await User.findUser(req.email);
-                    if (user.Completed.find((c)=> c==course.classID)) res.status(400).send({error:"You have already coursed that class"});
-                    else if (user.Passing.find((c)=> c==course.classID)) res.status(400).send({error:"You are already coursing that class"});
+                    // user.Passing.forEach((c)=> {
+                    //     console.log("------------------------------------------")
+                    //     console.log(c._id) 
+                    //     console.log(course.classID) 
+                    //     console.log(c._id.equals(course.classID)) 
+                    //     console.log("------------------------------------------")
+                    // })
+                    if (user.Completed.find((c)=> c._id.equals(course.classID))) res.status(400).send({error:"You have already coursed that class"});
+                    // Passing is no longer a restriction, since we are operating with multiple schedules
+                    // else if (user.Passing.find((c)=> c._id.equals(course.classID))) res.status(400).send({error:"You are already coursing that class"});
+                    else if (!user.Available.find((c)=> c._id.equals(course.classID))) res.status(400).send({error:"You cannot course that class"});
                     else {
                         let available = await findColition(course, userSchedule);
                         if (available) { 
                             let resp = await Schedule.pushCourse(req, _id);
+                            // user.Passing.push(course.classID);
+                            // await User.updateUser(user.email, user);
                             res.status(200).send(resp);
                             //Course.addOneStudent(_id); // TODO: Completar metodo en Course.js
                         }
@@ -95,17 +110,22 @@ router.put('/available', auth.validateCookie, async (req, res) =>{
         req.name = name;
         let userSchedule = await Schedule.findSchedule(req);
         if (userSchedule) {
-            if (userSchedule.Courses.find((c)=>c._id==_id)){
+            if (userSchedule.Courses.find((c)=>c._id.equals(_id))){
                 res.status(400).send({error:"Course is already on the schedule"});
                 return;
             }
             let course = await Course.findCourse({_id});
             if (course){
+                if (userSchedule.Courses.find((c)=>c.classID._id.equals(course.classID._id))){
+                    res.status(400).send({error:"Class is already on the schedule"});
+                    return;
+                }
                 let max = 24; // TODO: find course.classroomID capacity
                 if (course.studentCount<max){
                     let user = await User.findUser(req.email);
-                    if (user.Completed.find((c)=> c==course.classID)) res.status(400).send({error:"You have already coursed that class"});
-                    else if (user.Passing.find((c)=> c==course.classID)) res.status(400).send({error:"You are already coursing that class"});
+                    if (user.Completed.find((c)=> c._id.equals(course.classID))) res.status(400).send({error:"You have already coursed that class"});
+                    // else if (user.Passing.find((c)=> c._id.equals(course.classID))) res.status(400).send({error:"You are already coursing that class"});
+                    else if (!user.Available.find((c)=> c._id.equals(course.classID))) res.status(400).send({error:"You cannot course that class"});
                     else {
                         let available = await findColition(course, userSchedule);
                         if (available) { 

@@ -119,7 +119,8 @@ async function addCourse(schedule, courseID){
             "_id": courseID
         })});
     // console.log(await res.json())
-    findCourses();
+    findCourses(); // refresh addCourse modal
+    showSchedule(schedule); // refresh schedule
     // swal
     swal({
         title: 'Course successfully added to your schedule',
@@ -173,6 +174,7 @@ async function showSchedule(schedule){
     });
     let result = await request.json();
     // console.log(result[0].Courses);
+    cleanTable();
     for (let c of result[0].Courses){
         console.log(c);
         for (let i=0; i<c.days.length; i++){
@@ -233,9 +235,93 @@ function deleteSchedule(){
     }
 }
 
+function cleanTable(){
+    let html = `<table class="table table-bordered text-center">
+    <thead class="table-primary">
+        <tr class="bg-light-gray">
+            <th class="text-uppercase">Time
+            </th>
+            <th class="text-uppercase">Monday</th>
+            <th class="text-uppercase">Tuesday</th>
+            <th class="text-uppercase">Wednesday</th>
+            <th class="text-uppercase">Thursday</th>
+            <th class="text-uppercase">Friday</th>
+            <th class="text-uppercase">Saturday</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="align-middle">07:00-09:00</td>
+            <td id="M0709"></td>
+            <td id="T0709"></td>
+            <td id="W0709"></td>
+            <td id="H0709"></td>
+            <td id="F0709"></td>
+            <td id="S0709"></td>
+        </tr>
+        <tr>
+            <td class="align-middle">09:00-11:00</td>
+            <td id="M0911"></td>
+            <td id="T0911"></td>
+            <td id="W0911"></td>
+            <td id="H0911"></td>
+            <td id="F0911"></td>
+            <td id="S0911"></td>
+        </tr>
+        <tr>
+            <td class="align-middle">11:00-13:00</td>
+            <td id="M1113"></td>
+            <td id="T1113"></td>
+            <td id="W1113"></td>
+            <td id="H1113"></td>
+            <td id="F1113"></td>
+            <td id="S1113"></td>
+        </tr>
+        <tr>
+            <td class="align-middle">13:00-15:00</td>
+            <td id="M1315"></td>
+            <td id="T1315"></td>
+            <td id="W1315"></td>
+            <td id="H1315"></td>
+            <td id="F1315"></td>
+            <td id="S1315"></td>
+        </tr>
+        <tr>
+            <td class="align-middle">16:00-18:00</td>
+            <td id="M1618"></td>
+            <td id="T1618"></td>
+            <td id="W1618"></td>
+            <td id="H1618"></td>
+            <td id="F1618"></td>
+            <td id="S1618"></td>
+        </tr>
+        <tr>
+            <td class="align-middle">18:00-20:00</td>
+            <td id="M1820"></td>
+            <td id="T1820"></td>
+            <td id="W1820"></td>
+            <td id="H1820"></td>
+            <td id="F1820"></td>
+            <td id="S1820"></td>
+        </tr>
+        <tr>
+            <td class="align-middle">20:00-22:00</td>
+            <td id="M2022"></td>
+            <td id="T2022"></td>
+            <td id="W2022"></td>
+            <td id="H2022"></td>
+            <td id="F2022"></td>
+            <td id="S2022"></td>
+        </tr>
+    </tbody>
+</table>`
+    render(html, "scheduleTable")
+}
+
 function render(html, elementID){
     document.querySelector(`#${elementID}`).innerHTML = html;
 }
 
 scheduleList();
 setSchedule();
+cleanTable();
