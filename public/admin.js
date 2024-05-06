@@ -413,7 +413,7 @@ async function displayClassrooms(){
 async function deleteClassroom(id){
     const result = await Swal.fire({
         title: 'Are you sure?',
-        text: `You want to delete ${email}?`,
+        text: `You want to delete the classroom?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!',
@@ -422,24 +422,16 @@ async function deleteClassroom(id){
         cancelButtonColor: '#3085d6',
         reverseButtons: true, 
     });
-    // let request = await fetch('/api/Classroom/' + id, {
-    //     method: 'DELETE',
-    // });
+    
     if (result.isConfirmed) {
-        let response = await fetch('/api/User/' + email, {
+        let response = await fetch('/api/Classroom/' + id, {
             method: 'DELETE',
-            headers: {
-                // Add any necessary headers here
-            }
         });
-        if (response.ok) {  // Check if the delete was successful
-            await Swal.fire('Deleted!', 'The User has been deleted!', 'success');
-            list();  // Assuming 'list()' is a function to refresh the list of users
-        } else {
-            await Swal.fire('Failed!', 'The User could not be deleted.', 'error');
-        }
+        console.log(response);
+        await Swal.fire('Deleted!', 'The classroom has been deleted!', 'success');      
+        displayClassrooms();
     } else if (result.isDismissed) {
-        Swal.fire('Cancelled', 'Not deleted', 'error');
+        await Swal.fire('Cancelled', 'Not deleted', 'error');
     }
 
 }
