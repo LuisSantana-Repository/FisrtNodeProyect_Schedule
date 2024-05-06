@@ -51,8 +51,7 @@ async function findCourses(){
             data-bs-parent="#${c._id}"
             >
                 <div class="accordion-body">
-                    <div class="class row" id="classRow${c._id}">`
-            html+=`</div>
+                    <div class="class row" id="classRow${c._id}"><div class="d-flex justify-content-center"><div class="loader"></div></div></div>
             </div>
             </div>
             </div>
@@ -131,7 +130,6 @@ async function addCourse(schedule, courseID){
             "_id": courseID
         })});
     // console.log(await res.json())
-    findCourses(); // refresh addCourse modal
     showSchedule(schedule); // refresh schedule
     // swal
     swal({
@@ -176,8 +174,8 @@ function setSchedule(schedule=""){
     else {
         render("No schedule selected", "scheduleName"); 
         render("Course list: If you wish to add a course to your schedule, make shure to select your schedule first.", "addCourseModalTitle");
+        cleanTable();
     }
-    findCourses();
 }
 
 async function showSchedule(schedule){
@@ -260,7 +258,6 @@ function leaveCourse(id, name){
                         "_id": id
             })});
             showSchedule(schedule);
-            findCourses();
             swal({
                 title: name + " has been deleted from " + schedule,
                 icon: "success",
@@ -310,7 +307,7 @@ function deleteSchedule(){
                 })});
                 setSchedule();
                 scheduleList();
-                showSchedule();
+                cleanTable();
                 swal({
                     title: schedule + " has been deleted",
                     icon: "success",
@@ -409,4 +406,3 @@ function render(html, elementID){
 
 scheduleList();
 setSchedule();
-cleanTable();
