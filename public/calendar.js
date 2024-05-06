@@ -18,7 +18,7 @@ async function findCourses(){
     if (schedule) render("Add course to " + schedule, "addCourseModalTitle");
     // console.log(schedule); 
     let classname = sendName();
-    let classRoute = 'http://localhost:3001/api/Class';
+    let classRoute = '/api/Class';
     if (classname) classRoute+= '?name=' + classname;
     // console.log(classRoute);
     let request = await fetch(classRoute, {
@@ -51,7 +51,7 @@ async function findCourses(){
             >
                 <div class="accordion-body">
                     <div class="class row">`
-        request = await fetch('http://localhost:3001/api/Course?classID='+c._id, {
+        request = await fetch('/api/Course?classID='+c._id, {
             method: 'GET',
             });
             let courses = await request.json();
@@ -60,7 +60,7 @@ async function findCourses(){
                 // console.log(course);
                 let available = "";
                 let info ="";
-                request = await fetch('http://localhost:3001/api/Schedule/available', {
+                request = await fetch('/api/Schedule/available', {
                     method: 'PUT',
                     headers: {
                         "Content-Type": "application/json"
@@ -112,7 +112,7 @@ async function findCourses(){
 
 async function addCourse(schedule, courseID){
     // console.log("adding course")
-    let res = await fetch('http://localhost:3001/api/Schedule', {
+    let res = await fetch('/api/Schedule', {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json"
@@ -144,7 +144,7 @@ function currentSchedule(){
 }
 
 async function scheduleList(){
-    let request = await fetch('http://localhost:3001/api/Schedule', {
+    let request = await fetch('/api/Schedule', {
         method: 'GET',
         });
     let userSchedules = await request.json();
@@ -172,7 +172,7 @@ function setSchedule(schedule=""){
 }
 
 async function showSchedule(schedule){
-    let request = await fetch('http://localhost:3001/api/Schedule?name=' + schedule, {
+    let request = await fetch('/api/Schedule?name=' + schedule, {
         method: 'GET',
     });
     let result = await request.json();
@@ -192,7 +192,7 @@ async function showSchedule(schedule){
 
 async function loadCourseInformation(id){
     render(id, "courseInformationTitle");
-    let request = await fetch('http://localhost:3001/api/Course?_id=' + id, {
+    let request = await fetch('/api/Course?_id=' + id, {
         method: 'GET',
     });
     let course = await request.json();
@@ -241,7 +241,7 @@ function leaveCourse(id, name){
         buttons: ["Cancel", "Yes"],
     }).then(async c=>{
         if (c) {
-            await fetch('http://localhost:3001/api/Schedule', {
+            await fetch('/api/Schedule', {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"
@@ -250,7 +250,7 @@ function leaveCourse(id, name){
                         "name": schedule,
                         "_id": id
             })});
-            showSchedule();
+            showSchedule(schedule);
             findCourses();
             swal({
                 title: name + " has been deleted from " + schedule,
@@ -262,7 +262,7 @@ function leaveCourse(id, name){
 
 async function createSchedule(){
     let name = document.querySelector('#createScheduleBar').value;
-    let request = await fetch('http://localhost:3001/api/Schedule', {
+    let request = await fetch('/api/Schedule', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -291,7 +291,7 @@ function deleteSchedule(){
             buttons: ["Cancel", "Yes"],
         }).then(async c=>{
             if (c) {
-                await fetch('http://localhost:3001/api/Schedule', {
+                await fetch('/api/Schedule', {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"

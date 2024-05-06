@@ -379,7 +379,7 @@ async function changePassword(email) {
 
 async function displayClassrooms(){
     let building = "T";
-    let request = await fetch('http://localhost:3001/api/Classroom?building=' + building, {
+    let request = await fetch('/api/Classroom?building=' + building, {
         method: 'GET',
     });
     let filteredClassrooms = await request.json();
@@ -411,21 +411,37 @@ async function displayClassrooms(){
 }
 
 async function deleteClassroom(id){
-    swal({
-        title: "Are you sure you want to delete the classroom?" ,
-        icon: "warning",
-        buttons: ["Cancel", "Yes"],
-    }).then(async c=>{ 
-        if (c){
-            // let request = await fetch('http://localhost:3001/api/Classroom/' + id, {
-            //     method: 'DELETE',
-            // });
-            swal({
-                title: "Classroom has been deleted" ,
-                icon: "success"
-            })
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: `You want to delete ${email}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        reverseButtons: true, 
+    });
+    // let request = await fetch('/api/Classroom/' + id, {
+    //     method: 'DELETE',
+    // });
+    if (result.isConfirmed) {
+        let response = await fetch('/api/User/' + email, {
+            method: 'DELETE',
+            headers: {
+                // Add any necessary headers here
+            }
+        });
+        if (response.ok) {  // Check if the delete was successful
+            await Swal.fire('Deleted!', 'The User has been deleted!', 'success');
+            list();  // Assuming 'list()' is a function to refresh the list of users
+        } else {
+            await Swal.fire('Failed!', 'The User could not be deleted.', 'error');
         }
-    }); 
+    } else if (result.isDismissed) {
+        Swal.fire('Cancelled', 'Not deleted', 'error');
+    }
+
 }
 
 function render(html, elementID){
