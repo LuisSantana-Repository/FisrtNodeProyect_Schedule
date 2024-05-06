@@ -2,7 +2,7 @@
 - Schedules: 
     - Ability to browse user Schedules: Completed
         - Display current schedule on the calendar: Completed
-            TODO: - Each block displays course information and allows to leave the course: Pending
+            - Each block displays course information and allows to leave the course: Complete
     - Create Schedule button: Completed
     - Delete Schedule button: Completed
 - Add Course: Almost Complete
@@ -73,13 +73,13 @@ async function findCourses(){
                 if (fits.error) {
                     available = "disabled";
                     // console.log("Course disabled because: ", fits.error);
-                    info += ("Course disabled because: ", fits.error);
+                    info += "Course disabled because: " + fits.error;
                 }
                 html += /*html*/ `<ul
-                class="list-group list-group-horizontal"
+                class="list-group list-group-horizontal mt-1"
                 >
-                <li class="list-group-item">${course._id}</li>
-                <li class="list-group-item">${course.professorName}</li>
+                <li class="list-group-item">CourseID: <br> ${course._id}</li>
+                <li class="list-group-item">Professor: <br> ${course.professorName}</li>
                 <li class="list-group-item">`
                 for (let i=0; i<course.days.length; i++){
                     html+=`<p>${course.days[i]}: <br>${course.time[i]}</p>`
@@ -90,6 +90,7 @@ async function findCourses(){
                         name=""
                         id=""
                         class="btn btn-success"
+                        data-bs-dismiss="modal"
                         onclick="addCourse('${schedule}', '${course._id}')"
                         ${available}
                     >
@@ -180,9 +181,8 @@ async function showSchedule(schedule){
     for (let c of result[0].Courses){
         console.log(c);
         for (let i=0; i<c.days.length; i++){
-            if (c.days=="Thursday") c.days[i][0] == "H";
-            let id = c.days[i][0] + c.time[i][0] + c.time[i][1] + c.time[i][6] + c.time[i][7];
-            // console.log(id);
+            let id = c.days[i] + c.time[i][0] + c.time[i][1] + c.time[i][6] + c.time[i][7];
+            // console.log(c.days[i], c.days[i]=="Thursday", id);
             let info = c.classID.name + "<br> "+ c.classroomID.building + "-" + c.classroomID.number;
             let html = /* html */ `<a  href="#" class="mt-1" data-bs-toggle="modal" data-bs-target="#courseInformationModal" onclick="loadCourseInformation('${c._id}')">${info}</a>`
             render(html, id);
@@ -251,6 +251,7 @@ function leaveCourse(id, name){
                         "_id": id
             })});
             showSchedule();
+            findCourses();
             swal({
                 title: name + " has been deleted from " + schedule,
                 icon: "success",
@@ -270,7 +271,10 @@ async function createSchedule(){
             "name": name,
     })});
     let result = await request.json();
-    if (result.error) render(result.error, 'createScheduleResults');
+    if (result.error) {
+        render(result.error, 'createScheduleResults');
+        if (result.error=="jwt expired") logOut();
+    }
     else {
         render('Schedule successfully created', 'createScheduleResults');
         scheduleList();
@@ -324,66 +328,66 @@ function cleanTable(){
     <tbody>
         <tr>
             <td class="align-middle">07:00-09:00</td>
-            <td id="M0709"></td>
-            <td id="T0709"></td>
-            <td id="W0709"></td>
-            <td id="H0709"></td>
-            <td id="F0709"></td>
-            <td id="S0709"></td>
+            <td id="Monday0709"></td>
+            <td id="Tuesday0709"></td>
+            <td id="Wednesday0709"></td>
+            <td id="Thursday0709"></td>
+            <td id="Friday0709"></td>
+            <td id="Saturday0709"></td>
         </tr>
         <tr>
             <td class="align-middle">09:00-11:00</td>
-            <td id="M0911"></td>
-            <td id="T0911"></td>
-            <td id="W0911"></td>
-            <td id="H0911"></td>
-            <td id="F0911"></td>
-            <td id="S0911"></td>
+            <td id="Monday0911"></td>
+            <td id="Tuesday0911"></td>
+            <td id="Wednesday0911"></td>
+            <td id="Thursday0911"></td>
+            <td id="Friday0911"></td>
+            <td id="Saturday0911"></td>
         </tr>
         <tr>
             <td class="align-middle">11:00-13:00</td>
-            <td id="M1113"></td>
-            <td id="T1113"></td>
-            <td id="W1113"></td>
-            <td id="H1113"></td>
-            <td id="F1113"></td>
-            <td id="S1113"></td>
+            <td id="Monday1113"></td>
+            <td id="Tuesday1113"></td>
+            <td id="Wednesday1113"></td>
+            <td id="Thursday1113"></td>
+            <td id="Friday1113"></td>
+            <td id="Saturday1113"></td>
         </tr>
         <tr>
             <td class="align-middle">13:00-15:00</td>
-            <td id="M1315"></td>
-            <td id="T1315"></td>
-            <td id="W1315"></td>
-            <td id="H1315"></td>
-            <td id="F1315"></td>
-            <td id="S1315"></td>
+            <td id="Monday1315"></td>
+            <td id="Tuesday1315"></td>
+            <td id="Wednesday1315"></td>
+            <td id="Thursday1315"></td>
+            <td id="Friday1315"></td>
+            <td id="Saturday1315"></td>
         </tr>
         <tr>
             <td class="align-middle">16:00-18:00</td>
-            <td id="M1618"></td>
-            <td id="T1618"></td>
-            <td id="W1618"></td>
-            <td id="H1618"></td>
-            <td id="F1618"></td>
-            <td id="S1618"></td>
+            <td id="Monday1618"></td>
+            <td id="Tuesday1618"></td>
+            <td id="Wednesday1618"></td>
+            <td id="Thursday1618"></td>
+            <td id="Friday1618"></td>
+            <td id="Saturday1618"></td>
         </tr>
         <tr>
             <td class="align-middle">18:00-20:00</td>
-            <td id="M1820"></td>
-            <td id="T1820"></td>
-            <td id="W1820"></td>
-            <td id="H1820"></td>
-            <td id="F1820"></td>
-            <td id="S1820"></td>
+            <td id="Monday1820"></td>
+            <td id="Tuesday1820"></td>
+            <td id="Wednesday1820"></td>
+            <td id="Thursday1820"></td>
+            <td id="Friday1820"></td>
+            <td id="Saturday1820"></td>
         </tr>
         <tr>
             <td class="align-middle">20:00-22:00</td>
-            <td id="M2022"></td>
-            <td id="T2022"></td>
-            <td id="W2022"></td>
-            <td id="H2022"></td>
-            <td id="F2022"></td>
-            <td id="S2022"></td>
+            <td id="Monday2022"></td>
+            <td id="Tuesday2022"></td>
+            <td id="Wednesday2022"></td>
+            <td id="Thursday2022"></td>
+            <td id="Friday2022"></td>
+            <td id="Saturday2022"></td>
         </tr>
     </tbody>
 </table>`
