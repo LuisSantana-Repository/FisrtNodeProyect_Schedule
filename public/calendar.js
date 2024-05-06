@@ -39,6 +39,7 @@ async function findCourses(){
                     data-bs-target="#flush-${c._id}"
                     aria-expanded="true"
                     aria-controls="flush-collapseTwo"
+                    onclick="displayCourses('${c._id}', '${schedule}')"
                 >
                     ${c.name}
                 </button>
@@ -50,8 +51,22 @@ async function findCourses(){
             data-bs-parent="#${c._id}"
             >
                 <div class="accordion-body">
-                    <div class="class row">`
-        request = await fetch('/api/Course?classID='+c._id, {
+                    <div class="class row" id="classRow${c._id}">`
+            html+=`</div>
+            </div>
+            </div>
+            </div>
+            </div>`
+        } 
+    // console.log(html);
+    render(html, 'searchResults');
+}
+
+async function displayCourses(classID, schedule){
+    // console.log(classID, schedule)
+    if (schedule) {
+        let html =""
+        request = await fetch('/api/Course?classID='+classID, { //--------
             method: 'GET',
             });
             let courses = await request.json();
@@ -100,14 +115,8 @@ async function findCourses(){
                 </li>
                 </ul>`
             }
-            html+=`</div>
-            </div>
-            </div>
-            </div>
-            </div>`
-        } 
-    // console.log(html);
-    render(html, 'searchResults');
+        render(html, "classRow"+classID);
+    }
 }
 
 async function addCourse(schedule, courseID){
