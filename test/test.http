@@ -150,19 +150,19 @@ GET {{host}}/api/Schedule
 GET {{host}}/api/Schedule?name=Horario2&classID=662c0c66d35471bce3f86731
 
 
-### Add a course to the user
+### Add a course to the user 
 
 PUT {{host}}/api/Schedule
 Content-Type: application/json
 
 {
-    "name": "Horario6",
-    "_id": "663028a7b21b67819975632a"
+    "name": "test34",
+    "_id": "663028eeb21b678199756330"
 }
 
 ### Get user schedule
 
-GET {{host}}/api/Schedule?name=Horario5
+GET {{host}}/api/Schedule?name=test34
 
 ### Remove a course from the users schedule
 
@@ -193,15 +193,16 @@ POST {{host}}/api/Course
 Content-Type: application/json 
 
 {
-    "courseID": "TEST3412",
-    "professorName": "Luis Antonio",
-    "classID": "662c0c66d35471bce3f86731",
-    "classroomID": "T-201",
+    "professorName": "Turbo",
+    "classID": "662ade24700ab142f247a49a",
+    "classroomID": "6634fd78b7f31dabbdcdde10",
     "days": [
-        "Wednesday"
+        "Monday",
+        "Wednesday",
+        "Friday"
     ],
     "time": [
-        "16:00-18:00"
+        "07:00-09:00"
     ],
     "studentCount": 0
 }
