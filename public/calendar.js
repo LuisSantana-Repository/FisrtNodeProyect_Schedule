@@ -1,8 +1,8 @@
 /* What to do in here:
 - Schedules: 
-    - Ability to browse user Schedules: Complete
-    TODO: - Display current schedule on the calendar: Pending
-            - Each block displays course information and allows to leave the course: Pending
+    - Ability to browse user Schedules: Completed
+        - Display current schedule on the calendar: Completed
+            TODO: - Each block displays course information and allows to leave the course: Pending
     - Create Schedule button: Completed
     - Delete Schedule button: Completed
 - Add Course: Almost Complete
@@ -158,13 +158,32 @@ function setSchedule(schedule=""){
     if (schedule) {
         render("Current schedule: " + schedule, "scheduleName");
         render("Add course to " + schedule, "addCourseModalTitle");
+        showSchedule(schedule);
     }
     else {
         render("No schedule selected", "scheduleName"); 
         render("Course list: If you wish to add a course to your schedule, make shure to select your schedule first.", "addCourseModalTitle");
     }
     findCourses();
-    // show current schedule
+}
+
+async function showSchedule(schedule){
+    let request = await fetch('http://localhost:3001/api/Schedule?name=' + schedule, {
+        method: 'GET',
+    });
+    let result = await request.json();
+    // console.log(result[0].Courses);
+    for (let c of result[0].Courses){
+        console.log(c);
+        for (let i=0; i<c.days.length; i++){
+            if (c.days=="Thursday") c.days[i][0] == "H";
+            let id = c.days[i][0] + c.time[i][0] + c.time[i][1] + c.time[i][6] + c.time[i][7];
+            // console.log(id);
+            let info = c.classID.name + "<br> "+ c.classroomID.building + "-" + c.classroomID.number;
+            let html = /* html */ `<a  href="#" class="mt-1" data-bs-toggle="modal" data-bs-target="#courseInformation" onclick="loadCourseInformation('${c}')">${info}</a>`
+            render(html, id);
+        }
+    }
 }
 
 async function createSchedule(){
