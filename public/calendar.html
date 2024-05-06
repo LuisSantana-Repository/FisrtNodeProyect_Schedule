@@ -166,7 +166,7 @@
 <!-- Modal -->
 <div
     class="modal fade"
-    id="courseInformation"
+    id="courseInformationModal"
     tabindex="-1"
     role="dialog"
     aria-labelledby="modalTitleId"
@@ -175,9 +175,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" id="modalTitleId">
-                    DIA039B
-                </h5>
+                <h5 class="modal-title bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13" id="courseInformationTitle"></h5>
                 <button
                     type="button"
                     class="btn-close"
@@ -186,46 +184,11 @@
                 ></button>
             </div>
             <div class="modal-body">
-                <div class="container-fluid">
-                    <div
-                        class="table-responsive-lg"
-                    >
-                        <table
-                            class="table table-primary"
-                        >
-                        <h4>Informacion y Autoaprendizaje en la era digital</h4>
-                        <h6>Luis Santana</h6>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Day</th>
-                                    <th scope="col">Classroom</th>
-                                    <th scope="col">Hrs</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="">
-                                    <td scope="row">Tuesday</td>
-                                    <td>t-106</td>
-                                    <td>07:00-9:00</td>
-                                </tr>
-                                <tr class="">
-                                    <td scope="row">Saturday</td>
-                                    <td>asynchronous</td>
-                                    <td>18:00-20:00</td>
-                                </tr>
-                                <tr class="">
-                                    <td scope="row">Saturday</td>
-                                    <td>asynchronous</td>
-                                    <td>20:00-22:00</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
+                <div class="container-fluid" id="courseInformation">
                 </div>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-danger">Leave Classroom</button>
+            <div id="leaveCourseButton"></div>
 
                 <button
                     type="button"

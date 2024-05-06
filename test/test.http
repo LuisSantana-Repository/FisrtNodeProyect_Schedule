@@ -98,7 +98,7 @@ Content-Type: application/json
 
 {
     "name": "pelayoTest",
-    "email": "PT@iteso.mx",
+    "email": "PTSA@iteso.mx",
     "password" : "a",
     "userType": 0,
     "Curiculum": "ISC"
@@ -202,7 +202,9 @@ Content-Type: application/json
         "Friday"
     ],
     "time": [
-        "07:00-09:00"
+        "09:00-11:00",
+        "09:00-11:00",
+        "09:00-11:00"
     ],
     "studentCount": 0
 }

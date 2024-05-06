@@ -59,6 +59,7 @@ async function findCourses(){
             for (let course of courses){
                 // console.log(course);
                 let available = "";
+                let info ="";
                 request = await fetch('http://localhost:3001/api/Schedule/available', {
                     method: 'PUT',
                     headers: {
@@ -71,7 +72,8 @@ async function findCourses(){
                 let fits = await request.json();
                 if (fits.error) {
                     available = "disabled";
-                    console.log("Course disabled because: ", fits.error);
+                    // console.log("Course disabled because: ", fits.error);
+                    info += ("Course disabled because: ", fits.error);
                 }
                 html += /*html*/ `<ul
                 class="list-group list-group-horizontal"
@@ -92,7 +94,7 @@ async function findCourses(){
                         ${available}
                     >
                         Inscribe
-                    </button>
+                    </button><p>${info}</p>
                 </div>
                 </li>
                 </ul>`
@@ -182,10 +184,79 @@ async function showSchedule(schedule){
             let id = c.days[i][0] + c.time[i][0] + c.time[i][1] + c.time[i][6] + c.time[i][7];
             // console.log(id);
             let info = c.classID.name + "<br> "+ c.classroomID.building + "-" + c.classroomID.number;
-            let html = /* html */ `<a  href="#" class="mt-1" data-bs-toggle="modal" data-bs-target="#courseInformation" onclick="loadCourseInformation('${c}')">${info}</a>`
+            let html = /* html */ `<a  href="#" class="mt-1" data-bs-toggle="modal" data-bs-target="#courseInformationModal" onclick="loadCourseInformation('${c._id}')">${info}</a>`
             render(html, id);
         }
     }
+}
+
+async function loadCourseInformation(id){
+    render(id, "courseInformationTitle");
+    let request = await fetch('http://localhost:3001/api/Course?_id=' + id, {
+        method: 'GET',
+    });
+    let course = await request.json();
+    // console.log(course[0]);
+    course = course[0];
+    let html = /* html */ `
+    <h4>Class: ${course.classID.name}</h4>
+    <h5>Professor: ${course.professorName}</h5>
+    <div
+        class="table-responsive-lg"
+    >
+        <table
+            class="table table-hover" style="text-align: center;"
+        >
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">Day</th>
+                    <th scope="col">Classroom</th>
+                    <th scope="col">Time</th>
+                </tr>
+            </thead>
+            <tbody>`
+    for (let i=0; i<course.days.length; i++){
+        html += `
+        <tr class="">
+            <td scope="row">${course.days[i]}</td>
+            <td>${course.classroomID.building + "-" + course.classroomID.number}</td>
+            <td>${course.time[i]}</td>
+        </tr>`
+    }
+    html += ` </tbody>
+        </table>
+    </div>
+    `
+    render(html, "courseInformation");
+    let button = /*html */`<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="leaveCourse('${course._id}', '${course.classID.name}')">Leave Course</button>`
+    render(button, "leaveCourseButton");
+}
+
+function leaveCourse(id, name){
+    let schedule = currentSchedule();
+    console.log(id, name, schedule);
+    swal({
+        title: "Are you sure you want to leave the course: " + name ,
+        icon: "warning",
+        buttons: ["Cancel", "Yes"],
+    }).then(async c=>{
+        if (c) {
+            await fetch('http://localhost:3001/api/Schedule', {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "name": schedule,
+                        "_id": id
+            })});
+            showSchedule();
+            swal({
+                title: name + " has been deleted from " + schedule,
+                icon: "success",
+            })
+        }
+    })
 }
 
 async function createSchedule(){
@@ -216,10 +287,6 @@ function deleteSchedule(){
             buttons: ["Cancel", "Yes"],
         }).then(async c=>{
             if (c) {
-                swal({
-                    title: schedule + " has been deleted",
-                    icon: "success",
-                })
                 await fetch('http://localhost:3001/api/Schedule', {
                     method: "DELETE",
                     headers: {
@@ -228,8 +295,13 @@ function deleteSchedule(){
                     body: JSON.stringify({
                         "name": schedule,
                 })});
-                scheduleList();
                 setSchedule();
+                scheduleList();
+                showSchedule();
+                swal({
+                    title: schedule + " has been deleted",
+                    icon: "success",
+                })
             }
         })
     }
