@@ -377,6 +377,60 @@ async function changePassword(email) {
     });
 }
 
+async function displayClassrooms(){
+    let building = "T";
+    let request = await fetch('http://localhost:3001/api/Classroom?building=' + building, {
+        method: 'GET',
+    });
+    let filteredClassrooms = await request.json();
+    // console.log(filteredClassrooms);
+    let html ="";
+    for (let c of filteredClassrooms){
+        html += /* html */ `<tr>
+        <th scope="row">
+            ${c._id}
+        </th>
+        <td>${c.building + "-" + c.number}</td>
+        <td>${c.maxStudents}</td>
+        <td><div class="d-grid gap-2">
+            <button
+                type="button"
+                name=""
+                id=""
+                class="btn btn-danger"
+                onclick="deleteClassroom('${c._id}')"
+            >
+                Eliminate
+            </button>
+        </div>
+        </td>
+      </tr>`
+    }
+    render(html, "classroomTable")
+
+}
+
+async function deleteClassroom(id){
+    swal({
+        title: "Are you sure you want to delete the classroom?" ,
+        icon: "warning",
+        buttons: ["Cancel", "Yes"],
+    }).then(async c=>{ 
+        if (c){
+            // let request = await fetch('http://localhost:3001/api/Classroom/' + id, {
+            //     method: 'DELETE',
+            // });
+            swal({
+                title: "Classroom has been deleted" ,
+                icon: "success"
+            })
+        }
+    }); 
+}
+
+function render(html, elementID){
+    document.querySelector(`#${elementID}`).innerHTML = html;
+}
 
 
 function hide(){

@@ -20,6 +20,7 @@
         <link rel="stylesheet" href="admin.css">
         <link rel="stylesheet" href="test.css">
         <script src="admin.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="nav.js"></script>
         
@@ -96,7 +97,7 @@
 
 
             <a class="noHilight" href="" data-bs-toggle="modal"
-            data-bs-target="#Classroom">
+            data-bs-target="#Classroom" onclick="displayClassrooms()">
             <div class="card">
                 <div class="container d-flex align-items-center">
                     <i class="bi bi-card-list" style="font-size: 48px;"></i>
@@ -338,29 +339,12 @@
                                       <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Classroom</th>
-                                        <th scope="col">Capasity</th>
+                                        <th scope="col">Capacity</th>
                                         <th scope="col">Eliminate</th>
                                       </tr>
                                     </thead>
-                                    <tbody>
-                                      <tr>
-                                        <th scope="row">
-                                            1
-                                        </th>
-                                        <td>C-111</td>
-                                        <td>132</td>
-                                        <td><div class="d-grid gap-2">
-                                            <button
-                                                type="button"
-                                                name=""
-                                                id=""
-                                                class="btn btn-danger"
-                                            >
-                                                Eliminate
-                                            </button>
-                                        </div>
-                                    </td>
-                                      </tr>
+                                    <tbody id="classroomTable">
+                                    
                                     </tbody>
                                   </table>
                             </div>
