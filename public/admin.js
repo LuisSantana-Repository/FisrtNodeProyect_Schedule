@@ -318,9 +318,18 @@ async function EliminateUser(email) {
 }
 
 async function changePassword(email) {
+    let modalId = document.getElementById('ListUsers');
+    let myModal = bootstrap.Modal.getInstance(modalId);
+    if (myModal) {
+        myModal.hide();
+    }
+    
+
+
+
     Swal.fire({
         title: `What's the new password for ${email}?`,
-        input: 'text',
+        input: 'password',
         inputPlaceholder: 'Enter new password',
         icon: 'info',
         showCancelButton: true,
@@ -332,7 +341,7 @@ async function changePassword(email) {
                 return false;
             }
             try {
-                let response = await fetch('/api/User/' + email, {
+                let response = await fetch(`/api/User/${email}`, {
                     method: 'PUT',
                     headers: {
                         "Content-Type": "application/json"
@@ -359,7 +368,11 @@ async function changePassword(email) {
                 icon: 'success'
             });
         } else if (result.isDismissed) {
-            Swal.fire('Cancelled', 'No password change was made.', 'info');
+            Swal.fire({
+                title: 'Cancelled',
+                text: 'No password change was made.',
+                icon: 'info'
+            });
         }
     });
 }

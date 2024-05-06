@@ -83,3 +83,8 @@ a:hover, a:focus, a:active {
     background-color: transparent; 
     outline: none;
 }
+
+.swal2-container {
+    z-index: 1060 !important; /* Bootstrap modals usually are around 1050 */
+  }
+  
