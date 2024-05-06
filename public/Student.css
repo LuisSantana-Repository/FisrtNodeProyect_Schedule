@@ -1,6 +1,6 @@
 body {
-    background-color: #f0f4f8; /* Very light blue-grey background */
-    color: #333; /* Dark grey text for readability */
+    background-color: #f0f4f8; 
+    color: #333; 
     font-family: 'Arial', sans-serif;
 }
 
@@ -8,29 +8,29 @@ body {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background: #e7eff9; /* Light blue background */
+    background: #e7eff9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 h1, h5 {
     text-align: center;
-    color: #2c3e50; /* Deeper blue for text, enhancing contrast */
+    color: #2c3e50;
 }
 
 .list-group-item {
     border-radius: 0.25rem;
     margin-bottom: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    background-color: #f8faff; /* Very light blue for items, subtle contrast with the container */
+    background-color: #f8faff; 
 }
 
 .list-group-item-primary {
-    background-color: #cce5ff; /* Light blue for completed classes */
+    background-color: rgb(212, 237, 218);
 }
 
 .list-group-item-warning {
-    background-color: #d4edda; /* Soft green, good for ongoing classes */
+    background-color: #f1ffcc; 
 }
 
 .bg-secondary {

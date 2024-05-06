@@ -10,23 +10,23 @@ body {
     margin-top: auto;
     margin-bottom: auto;
     width: 400px;
-    background-color: rgba(255, 255, 255, 0.9); /* Slightly more opacity */
-    padding: 20px; /* Added padding */
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px; 
 }
 
 .card-header h3 {
-    color: #34568B; /* A more vibrant color */
-    font-size: 24px; /* Bigger font size */
+    color: #34568B; 
+    font-size: 24px;
 }
 
 input[type=email], input[type=password] {
     border: 2px solid #ddd;
-    border-radius: 4px; /* Rounded borders */
+    border-radius: 4px;
     padding: 10px;
 }
 
 button[type=submit] {
-    background-color: #4CAF50; /* Green color for the button */
+    background-color: #4CAF50;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -35,5 +35,5 @@ button[type=submit] {
 }
 
 button[type=submit]:hover {
-    background-color: #45a049; /* Darker shade on hover */
+    background-color: #45a049; 
 }

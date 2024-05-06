@@ -1,61 +1,61 @@
 .navbar {
-    background-color: rgba(67, 96, 181, 0.8); /* Greenish semi-transparent background */
-    transition: background-color 0.4s; /* Smooth transition for background color */
+    background-color: rgba(67, 96, 181, 0.8); 
+    transition: background-color 0.4s;
 }
 
 .navbar:hover {
-    background-color: rgb(67, 101, 181); /* Solid green color on hover */
+    background-color: rgb(67, 101, 181); 
 }
 
 
 body {
-    font-family: 'Arial', sans-serif; /* Modern, readable font */
+    font-family: 'Arial', sans-serif; 
 }
 
 .bi {
-    font-size: 1.5rem; /* Larger icons for better visibility */
+    font-size: 1.5rem; 
 }
 
 main {
-    background-color: #f0f0f0; /* Light grey background */
-    padding: 20px; /* Adds padding around the content within the main element */
-    margin: auto; /* Centers the main content if needed */
-    width: 90%; /* Adjusts the width to ensure it does not span the full width of the viewport */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds a subtle shadow for depth */
+    background-color: #f0f0f0; 
+    padding: 20px; 
+    margin: auto;
+    width: 90%; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .container {
-    display: flex; /* Ensures flexbox layout */
-    align-items: center; /* Aligns children (icon and text div) vertically in the center */
-    gap: 20px; /* Provides space between the icon and the text */
+    display: flex; 
+    align-items: center; 
+    gap: 20px;
 }
 
 .card {
-    background-color: #c9c9c9; /* Regular card color */
+    background-color: #c9c9c9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     border-radius: 10px;
-    margin: 20px; /* Adds space around each card */
-    overflow: hidden; /* Keeps any scaled content within the boundaries of the card */
+    margin: 20px; 
+    overflow: hidden;
 }
 
 .card:hover {
-    transform: scale(1.03); /* Slightly enlarges the card */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Deeper shadow for a 3D effect */
+    transform: scale(1.03); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
 
 
 
 .modal-content {
-    border-radius: 15px; /* Rounded corners for modals */
+    border-radius: 15px;
 }
 
 .modal-header, .modal-body, .modal-footer {
-    padding: 20px; /* More padding for a better layout */
+    padding: 20px; 
 }
 
 footer {
-    background-color: #343a40; /* Dark background for the footer */
+    background-color: #343a40; 
     color: #fff;
     padding: 20px;
     text-align: center;
@@ -67,8 +67,8 @@ footer a {
 }
 
 body {
-    background-color: #f4f4f4; /* Light grey background for the whole page */
-    color: #333; /* Dark grey text for better readability */
+    background-color: #f4f4f4; 
+    color: #333;
 }
 
 a {
@@ -85,6 +85,6 @@ a:hover, a:focus, a:active {
 }
 
 .swal2-container {
-    z-index: 1060 !important; /* Bootstrap modals usually are around 1050 */
+    z-index: 1060 !important; 
   }
   
