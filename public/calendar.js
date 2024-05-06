@@ -2,7 +2,7 @@
 - Schedules: 
     - Ability to browse user Schedules: Completed
         - Display current schedule on the calendar: Completed
-            TODO: - Each block displays course information and allows to leave the course: Pending
+            - Each block displays course information and allows to leave the course: Complete
     - Create Schedule button: Completed
     - Delete Schedule button: Completed
 - Add Course: Almost Complete
@@ -73,13 +73,13 @@ async function findCourses(){
                 if (fits.error) {
                     available = "disabled";
                     // console.log("Course disabled because: ", fits.error);
-                    info += ("Course disabled because: ", fits.error);
+                    info += "Course disabled because: " + fits.error;
                 }
                 html += /*html*/ `<ul
-                class="list-group list-group-horizontal"
+                class="list-group list-group-horizontal mt-1"
                 >
-                <li class="list-group-item">${course._id}</li>
-                <li class="list-group-item">${course.professorName}</li>
+                <li class="list-group-item">CourseID: <br> ${course._id}</li>
+                <li class="list-group-item">Professor: <br> ${course.professorName}</li>
                 <li class="list-group-item">`
                 for (let i=0; i<course.days.length; i++){
                     html+=`<p>${course.days[i]}: <br>${course.time[i]}</p>`

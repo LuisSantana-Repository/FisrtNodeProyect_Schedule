@@ -98,7 +98,7 @@ Content-Type: application/json
 
 {
     "name": "pelayoTest",
-    "email": "PTSA@iteso.mx",
+    "email": "PTSA2@iteso.mx",
     "password" : "a",
     "userType": 0,
     "Curiculum": "ISC"
@@ -115,7 +115,7 @@ POST {{host}}/api/login
 Content-Type: application/json
 
 {
-    "email": "PT@iteso.mx",
+    "email": "PTSA2@iteso.mx",
     "password" : "a"
 }
 
@@ -193,24 +193,26 @@ POST {{host}}/api/Course
 Content-Type: application/json 
 
 {
-    "professorName": "Turbo",
-    "classID": "662ade24700ab142f247a49a",
-    "classroomID": "6634fd78b7f31dabbdcdde10",
+    "professorName": "OW player",
+    "classID": "662adcda62f280a6c0c85bf8",
+    "classroomID": "6634fd78b7f31dabbdcdde0c",
     "days": [
         "Monday",
         "Wednesday",
         "Friday"
     ],
     "time": [
-        "09:00-11:00",
-        "09:00-11:00",
-        "09:00-11:00"
+        "13:00-15:00",
+        "13:00-15:00",
+        "13:00-15:00"
     ],
     "studentCount": 0
 }
 
-
 ### 
+GET {{host}}/api/Course
+
+###  
 GET {{host}}/api/Class
 
 ###
