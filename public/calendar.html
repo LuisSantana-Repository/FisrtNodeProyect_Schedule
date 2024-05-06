@@ -24,41 +24,41 @@
     <body>
         <header>
             <nav
-            class="navbar navbar-expand-sm navbar-dark bg-primary"
+                class="navbar navbar-expand-sm "
             >
-            <a class="navbar-brand" href="#"><img
-                src="https://oci02.img.iteso.mx/Identidades-De-Instancia/ITESO/Logos%20ITESO/Logo-ITESO-Principal-SinFondo.png"
-                class="img-fluid rounded-top iteso-logo"
-                alt="Iteso logo"
-            />
-            </a>
-            <button
-                class="navbar-toggler d-lg-none"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapsibleNavId"
-                aria-controls="collapsibleNavId"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            ><i class="bi bi-three-dots-vertical"></i></button>
+                <a class="navbar-brand" href="#"><img
+                    src="https://oci02.img.iteso.mx/Identidades-De-Instancia/ITESO/Logos%20ITESO/Logo-ITESO-Principal-SinFondo.png"
+                    class="img-fluid rounded-top iteso-logo"
+                    alt="Iteso logo"
+                />
+                </a>
+                <button
+                    class="navbar-toggler d-lg-none"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapsibleNavId"
+                    aria-controls="collapsibleNavId"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                ><i class="bi bi-three-dots-vertical"></i></button>
 
 
-            <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavId">
-                <table>
-                    <tr>
-                        <td>
-                            <a class="text-white text-decoration-none my-2" href="" ><i class="bi bi-person-fill"> User</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a class="text-white text-decoration-none my-2" href="" ><i class="bi bi-arrow-bar-right"></i> Log Out</i></a>
-                        </td>
-                    </tr>
-                </table>
-                
-            </div>
-        </nav>
+                <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavId">
+                    <table>
+                        <tr>
+                            <td>
+                                <a class="text-white text-decoration-none my-2" href="user_page.html" ><i class="bi bi-person-fill"> User</i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a class="text-white text-decoration-none my-2" href="index.html" onclick="logOut()" ><i class="bi bi-arrow-bar-right"></i> Log Out</i></a>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
+            </nav>
         </header>
         <main>
 
@@ -143,9 +143,7 @@
 
             
         </main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
+        
         <!-- Bootstrap JavaScript Libraries -->
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -158,6 +156,9 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"
         ></script>
+        <footer>
+            <!-- place footer here -->
+        </footer>
     </body>
 </html>
 
@@ -433,6 +434,7 @@
     </div>
 </div>
 
+<script src="nav.js"></script>
 <script src="calendar.js"></script>
 
 <script>
