@@ -273,7 +273,7 @@ async function createSchedule(){
     let result = await request.json();
     if (result.error) {
         render(result.error, 'createScheduleResults');
-        if (result.error=="jwt expired") logOut();
+        if (result.error=="jwt expired") window.location.href = 'index.html';
     }
     else {
         render('Schedule successfully created', 'createScheduleResults');
