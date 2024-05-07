@@ -10,7 +10,7 @@ router.post('/', async (req, res) =>{
     // res.send("ADDED")
 })
 
-router.get('/', async (req, res) =>{
+router.get('/', auth.validateCookie, auth.requiredAdmin, async (req, res) =>{
     let building = req.query;
     if (building){
         let response = await Classroom.findClassroom(building)
@@ -29,7 +29,7 @@ router.delete('/', async (req, res) =>{
     // res.send("DELETED")
 })
 
-router.delete('/:id', auth.validateCookie, auth.requiredAdmin ,async (req, res) =>{
+router.delete('/:id', auth.validateCookie, auth.requiredAdmin, async (req, res) =>{
     await Classroom.deleteClassroom({"_id": req.params.id});
     res.status(200).send({u: "success"})
 })

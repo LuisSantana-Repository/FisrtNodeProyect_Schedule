@@ -378,8 +378,11 @@ async function changePassword(email) {
 }
 
 async function displayClassrooms(){
-    let building = "T";
-    let request = await fetch('/api/Classroom?building=' + building, {
+    let route = '/api/Classroom';
+    let filter = document.querySelector('#classroomFilter').value;
+    if (filter) route += '?building=' + filter.toUpperCase();
+    console.log(route, filter);
+    let request = await fetch(route, {
         method: 'GET',
     });
     let filteredClassrooms = await request.json();
