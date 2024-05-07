@@ -41,7 +41,7 @@ async function findColition(course, userSchedule){
             if (!available) break;  
             let currentCourse = await Course.findCourse({ _id: c });
             for (let j = 0; j < currentCourse.days.length; j++) {
-                if (course.days[i] == currentCourse.days[j] && course.time[i] == currentCourse.time[j]) {
+                if (course.days[i] == currentCourse.days[j] && course.time[i] == currentCourse.time[j] && !course.classID._id.equals(currentCourse.classID._id)) {
                     console.log("Collision on:", course.days[i], course.time[i]);
                     available = false;
                     break;
@@ -65,10 +65,10 @@ router.put('/', auth.validateCookie, async (req, res) =>{
             }
             let course = await Course.findCourse({_id});
             if (course){
-                if (userSchedule.Courses.find((c)=>c.classID._id.equals(course.classID._id))){
-                    res.status(400).send({error:"Class is already on the schedule"});
-                    return;
-                }
+                // if (userSchedule.Courses.find((c)=>c.classID._id.equals(course.classID._id))){
+                //     res.status(400).send({error:"Class is already on the schedule"});
+                //     return;
+                // }
                 let max = 24; // TODO: find course.classroomID capacity
                 if (course.studentCount<max){
                     let user = await User.findUser(req.email);
@@ -116,10 +116,10 @@ router.put('/available', auth.validateCookie, async (req, res) =>{
             }
             let course = await Course.findCourse({_id});
             if (course){
-                if (userSchedule.Courses.find((c)=>c.classID._id.equals(course.classID._id))){
-                    res.status(400).send({error:"Class is already on the schedule"});
-                    return;
-                }
+                // if (userSchedule.Courses.find((c)=>c.classID._id.equals(course.classID._id))){
+                //     res.status(400).send({error:"Class is already on the schedule"});
+                //     return;
+                // }
                 let max = 24; // TODO: find course.classroomID capacity
                 if (course.studentCount<max){
                     let user = await User.findUser(req.email);

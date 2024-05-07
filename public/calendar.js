@@ -105,7 +105,7 @@ async function displayCourses(classID, schedule){
                         id=""
                         class="btn btn-success"
                         data-bs-dismiss="modal"
-                        onclick="addCourse('${schedule}', '${course._id}')"
+                        onclick="addCourse('${schedule}', '${course._id}', '${classID}')"
                         ${available}
                     >
                         Inscribe
@@ -118,24 +118,65 @@ async function displayCourses(classID, schedule){
     }
 }
 
-async function addCourse(schedule, courseID){
+async function addCourse(schedule, courseID, classID){
     // console.log("adding course")
-    let res = await fetch('/api/Schedule', {
-        method: 'PUT',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "name": schedule,
-            "_id": courseID
-        })});
-    // console.log(await res.json())
-    showSchedule(schedule); // refresh schedule
-    // swal
-    swal({
-        title: 'Course successfully added to your schedule',
-        icon: 'success'
+    // Si ya existe un curso con la misma clase, se elimina:
+        // get schedule courses
+    let request = await fetch('/api/Schedule?name=' + schedule, {
+        method: 'GET',
     });
+    let result = await request.json();
+    // console.log(result[0])
+    let add = true;
+    // for each course
+    for (let c of result[0].Courses){
+        // if course.classID._id == classID
+        if (c.classID._id == classID) {
+            // deletecourse
+            await swal({
+                title: "Are you sure you want to change the course: " + c.classID.name ,
+                icon: "warning",
+                buttons: ["Cancel", "Yes"],
+            }).then(async com=>{
+                if (com) {
+                    await fetch('/api/Schedule', {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "name": schedule,
+                            "_id": c._id
+                    })});
+                    console.log("deleted", c._id);
+                }
+                else {
+                    console.log("cancel");
+                    add = false;
+                }
+            })
+            break;
+        }
+    }
+    if (add){
+        let res = await fetch('/api/Schedule', {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "name": schedule,
+                "_id": courseID
+            })});
+        console.log("added", courseID)
+        console.log(await res.json())
+        showSchedule(schedule); // refresh schedule
+        // swal
+        swal({
+            title: 'Course successfully added to your schedule',
+            icon: 'success'
+        });
+    }
 }
 
 function sendName(){
