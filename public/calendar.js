@@ -39,6 +39,7 @@ async function findCourses(){
         // console.log(c.name)
         let available=``;
         if (userClasses.notIn.find((n) => c._id==n._id)) available = `style="background-color:#808080"`;
+        else if (userClasses.Completed.find((n) => c._id==n._id)) available = `style="background-color:#808080"`;
         html += /*html*/ `<div class="accordion accordion-flush" id="${c._id}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="flush-headingOne">
