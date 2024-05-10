@@ -16,9 +16,9 @@ router.get('/',  async (req, res)=>{
     res.send(filteredCourses);
 })
 
-router.post('/', async (req, res)=>{
-    return await Course.addCourse(req.body);
-})
+// router.post('/', async (req, res)=>{
+//     return await Course.addCourse(req.body);
+// })
 
 // router.post('/', async (req, res)=>{
 //     let {professorID, classroomID, classID, days, time} = req.body;
