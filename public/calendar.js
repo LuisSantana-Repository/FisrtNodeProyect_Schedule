@@ -25,10 +25,20 @@ async function findCourses(){
         method: 'GET',
         });
     let classes = await request.json();
+    let request2 = await fetch('/api/User/classes', {
+        method: 'GET',
+        headers:{
+            "x-token":null,
+            "x-auth": "23423",
+        }
+        });
+    let userClasses = await request2.json();
     // console.log(classes)
     let html ="";
     for (let c of classes.users){
         // console.log(c.name)
+        let available=``;
+        if (userClasses.notIn.find((n) => c._id==n._id)) available = `style="background-color:#808080"`;
         html += /*html*/ `<div class="accordion accordion-flush" id="${c._id}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="flush-headingOne">
@@ -39,6 +49,7 @@ async function findCourses(){
                     data-bs-target="#flush-${c._id}"
                     aria-expanded="true"
                     aria-controls="flush-collapseTwo"
+                    ${available}
                     onclick="displayCourses('${c._id}', '${schedule}')"
                 >
                     ${c.name}
