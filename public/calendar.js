@@ -226,6 +226,8 @@ async function showSchedule(schedule){
     let result = await request.json();
     // console.log(result[0].Courses);
     cleanTable();
+    const colores = [ "#F3E5AB", "#ECC5FB", "#C8E4F8", "#F3B0C3", "#C7F0BD", "#FBE4D5", "#d5e732", "#97f8d8", "#98b5be" ];
+    let color=0;
     for (let c of result[0].Courses){
         console.log(c);
         for (let i=0; i<c.days.length; i++){
@@ -233,8 +235,13 @@ async function showSchedule(schedule){
             // console.log(c.days[i], c.days[i]=="Thursday", id);
             let info = c.classID.name + "<br> "+ c.classroomID.building + "-" + c.classroomID.number;
             let html = /* html */ `<a  href="#" class="mt-1" data-bs-toggle="modal" data-bs-target="#courseInformationModal" onclick="loadCourseInformation('${c._id}')">${info}</a>`
+            //Change background color
+            var element = document.getElementById(id);
+            element.setAttribute("style", "background-color:" + colores[color]);
+            // Insert course information
             render(html, id);
         }
+        color++;
     }
 }
 
