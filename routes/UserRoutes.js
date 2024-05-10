@@ -43,6 +43,7 @@ router.get('/', auth.validateCookie, auth.requiredAdmin, async (req,res)=>{
 router.get('/classes',auth.validateCookie, async (req, res)=>{
     //console.log(req.params.id);
     let email = req.email
+    let {name} = req.query
     let user = await User.findUser(email)
     let user2 = await User.findOne({email})
     let notIn = await Class.findCLasesNotInUser(user2)
@@ -84,8 +85,14 @@ router.get('/classes',auth.validateCookie, async (req, res)=>{
                 return o._id.equals(u._id);
             });
         });
-
-        res.send({"Completed":user.Completed,Available,notIn,clasesInscribed})
+        let Completed = user.Completed
+        if(name){
+            Completed = Completed.filter(u => u.name.toLowerCase().includes(name.toLowerCase()))
+            Available = Available.filter(u => u.name.toLowerCase().includes(name.toLowerCase()))
+            notIn = notIn.filter(u => u.name.toLowerCase().includes(name.toLowerCase()))
+            clasesInscribed = clasesInscribed.filter(u => u.name.toLowerCase().includes(name.toLowerCase()))
+        }
+        res.send({"Completed":Completed,Available,notIn,clasesInscribed})
         return
         //console.log(clasesInscribed);
     }

@@ -5,7 +5,7 @@ function completedHTML(u){
                         <input class="form-check-input me-1" type="checkbox" value="" aria-label="Class 1 Completed" checked disabled>
         </li>
     `
-    console.log(html)
+    //console.log(html)
     return html
 }
 function notAble(u){
@@ -15,7 +15,7 @@ function notAble(u){
             <input class="form-check-input me-1" type="checkbox" value="" aria-label="Class 3 not able" disabled>
         </li>
     `
-    console.log(html)
+    //console.log(html)
     return html
 }
 function PassingHTML(u){
@@ -25,7 +25,7 @@ function PassingHTML(u){
                         <input class="form-check-input me-1" type="checkbox" value="" aria-label="Class 2 In Progress" onclick="updateAvailable('${u._id}')">
                     </li>
     `
-    console.log(html)
+    //console.log(html)
     return html
 }
 function AvailableHTML(u){
@@ -35,7 +35,7 @@ function AvailableHTML(u){
                         <input class="form-check-input me-1" type="checkbox" value="" aria-label="Class 3 Not Started" onclick="updateAvailable('${u._id}')">
                     </li>
     `
-    console.log(html)
+    //console.log(html)
     return html
 
 }
@@ -58,7 +58,13 @@ async function updateAvailable(u){
 
 async function makechecks(){
     let token = null;
-    let request = await fetch('/api/User/classes', {
+    let text = document.getElementById("input");
+    let params=""
+    if(text != null){
+        params = "?name="+text.value;
+    }
+    console.log(params)
+    let request = await fetch('/api/User/classes'+params, {
         method: 'GET',
         headers:{
             "x-token":token,
@@ -68,9 +74,9 @@ async function makechecks(){
     let data = await request.json()
     
     let html = data.Completed.map(u => completedHTML(u)).join('')
-    console.log(html)
+    //console.log(html)
     html += data.clasesInscribed.map(u => PassingHTML(u)).join('')
-    console.log(html)
+    //console.log(html)
     html += data.Available.map(u => AvailableHTML(u)).join('')
     html += data.notIn.map(u=> notAble(u)).join('')
     document.getElementById("List").innerHTML= html;

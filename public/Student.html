@@ -30,6 +30,19 @@
             <div class="container mt-5">
                 <h1 class="mb-4">Before We Continue</h1>
                 <h5 class="mb-4">Here are a list of classes. The blue ones are the ones you have already completed, the yellow ones are the ones you are currently doing, and the uncolored ones are those not yet started. Feel free to check classes you have completed.</h5>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="prefixId">Name</span>
+                    <input
+                        type="text"
+                        name="input"
+                        id="input"
+                        class="form-control"
+                        placeholder=""
+                        oninput="makechecks()"
+                        aria-describedby="prefixId"
+                    />
+                </div>
+                
                 <ul class="list-group" id="List">
                     
                     
